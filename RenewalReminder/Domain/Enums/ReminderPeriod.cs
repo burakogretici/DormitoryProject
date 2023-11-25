@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RenewalReminder.Domain.Enums
+namespace KvsProject.Domain.Enums
 {
     public enum ReminderPeriod : int
     {

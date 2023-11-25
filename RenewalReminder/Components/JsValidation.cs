@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace RenewalReminder.CS.Web.Components
+namespace KvsProject.CS.Web.Components
 {
     [HtmlTargetElement("js-validation")]
     public class JsValidation : TagHelper

@@ -1,4 +1,4 @@
-﻿namespace RenewalReminder.Domain
+﻿namespace KvsProject.Domain
 {
 
 }

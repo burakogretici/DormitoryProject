@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace RenewalReminder.CS.Web.Components
+namespace KvsProject.CS.Web.Components
 {
     [HtmlTargetElement("checkbox", TagStructure = TagStructure.WithoutEndTag)]
     public class Checkbox : TagHelper

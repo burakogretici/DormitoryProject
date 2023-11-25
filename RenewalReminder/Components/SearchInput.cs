@@ -9,10 +9,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using RenewalReminder;
-using RenewalReminder.Components;
+using KvsProject;
+using KvsProject.Components;
 
-namespace RenewalReminder.CS.Web.Components
+namespace KvsProject.CS.Web.Components
 {
     [HtmlTargetElement("search-input")]
     public class SearchInput : TagHelper

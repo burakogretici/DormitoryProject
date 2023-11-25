@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace RenewalReminder.Domain
+namespace KvsProject.Domain
 {
     public class Result
     {

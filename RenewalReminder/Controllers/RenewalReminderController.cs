@@ -1,22 +1,22 @@
 ﻿//using Microsoft.AspNetCore.Mvc;
-//using RenewalReminder.Domain;
-//using RenewalReminder.Models;
-//using RenewalReminder.Services.Abstract;
+//using KvsProject.Domain;
+//using KvsProject.Models;
+//using KvsProject.Services.Abstract;
 //using RenewalRemindr.Models;
 //using System.Security.Cryptography;
 
-//namespace RenewalReminder.Controllers
+//namespace KvsProject.Controllers
 //{
-//    public class RenewalReminderController : Controller
+//    public class KvsProjectController : Controller
 //    {
-//        private readonly IRenewalReminderService _renewalReminderService;
+//        private readonly IKvsProjectService _KvsProjectService;
 //        private readonly IUserService _userService;
 
 //        private readonly IUserAccessor _userAccessor;
 
-//        public RenewalReminderController(IRenewalReminderService renewalReminderService, IUserAccessor userAccessor, IUserService userService)
+//        public KvsProjectController(IKvsProjectService KvsProjectService, IUserAccessor userAccessor, IUserService userService)
 //        {
-//            _renewalReminderService = renewalReminderService;
+//            _KvsProjectService = KvsProjectService;
 //            _userAccessor = userAccessor;
 //            _userService = userService;
 //        }
@@ -25,14 +25,14 @@
 //        {
 //            return View();
 //        }
-//        public async Task<IActionResult> RenewalReminder_Read(GridRequest request)
+//        public async Task<IActionResult> KvsProject_Read(GridRequest request)
 //        {
 //            this.StoreRequest(request);
-//            var query = request.ToPagedQuery<UserRenewalReminder>();
+//            var query = request.ToPagedQuery<UserKvsProject>();
 //            query.Filters.Add(x => x.UserId == _userAccessor.User.Id);
-//            return (await _renewalReminderService.Query(query)).ToGridResult(request);
+//            return (await _KvsProjectService.Query(query)).ToGridResult(request);
 //        }
-//        public async Task<IActionResult> RenewalReminder_Edit(int id)
+//        public async Task<IActionResult> KvsProject_Edit(int id)
 //        {
 //            var userQuery = _userService.NewQuery<User>(a => !a.Deleted);
 //            var users = await _userService.Query(userQuery, a => new User()
@@ -46,12 +46,12 @@
 //            {
 //                return users.ToView(this);
 //            }
-//            var model = new Domain.RenewalReminder() { UserRenewalReminders = new List<UserRenewalReminder>() };
+//            var model = new Domain.KvsProject() { UserKvsProjects = new List<UserKvsProject>() };
 
 //            if (id > 0)
 //            {
-//                var getQuery = _renewalReminderService.NewQuery<Domain.RenewalReminder>(a => a.Id == id);
-//                var result = await _renewalReminderService.Get<Domain.RenewalReminder>(getQuery, "UserRenewalReminders");
+//                var getQuery = _KvsProjectService.NewQuery<Domain.KvsProject>(a => a.Id == id);
+//                var result = await _KvsProjectService.Get<Domain.KvsProject>(getQuery, "UserKvsProjects");
 //                if (result.HasError)
 //                {
 //                    return result.ToView(this);
@@ -65,20 +65,20 @@
 //            }
 
 
-//            model.UserRenewalReminders = model.UserRenewalReminders.Where(a => !a.Deleted && users.Data.Any(b => b.Id == a.UserId)).ToList();
+//            model.UserKvsProjects = model.UserKvsProjects.Where(a => !a.Deleted && users.Data.Any(b => b.Id == a.UserId)).ToList();
 //            foreach (var user in users.Data)
 //            {
-//                var userReminder = model.UserRenewalReminders.FirstOrDefault(a => a.UserId == user.Id);
+//                var userReminder = model.UserKvsProjects.FirstOrDefault(a => a.UserId == user.Id);
 //                if (userReminder != null)
 //                {
 //                    userReminder.User = user;
 //                }
 //                else
 //                {
-//                    model.UserRenewalReminders.Add(new UserRenewalReminder()
+//                    model.UserKvsProjects.Add(new UserKvsProject()
 //                    {
 //                        UserId = user.Id,
-//                        RenewalReminderId = model.Id,
+//                        KvsProjectId = model.Id,
 //                        User = user
 //                    });
 
@@ -87,7 +87,7 @@
 
 //            return View(model);
 //        }
-//        public async Task<IActionResult> RenewalReminder_Save(Domain.RenewalReminder entity, List<UserRenewalReminder> users)
+//        public async Task<IActionResult> KvsProject_Save(Domain.KvsProject entity, List<UserKvsProject> users)
 //        {
 //            if (!ModelState.IsValid)
 //            {
@@ -98,16 +98,16 @@
 //                users.ForEach(item => item.Deleted = !item.Deleted);
 //            }
 
-//            var result = await _renewalReminderService.SaveRenewalReminder(entity, users);
+//            var result = await _KvsProjectService.SaveKvsProject(entity, users);
 //            if (result.HasError)
 //            {
 //                return result.ToJson();
 //            }
 //            return this.SuccesJson(new { result.Data.Id });
 //        }
-//        public async Task<IActionResult> RenewalReminder_Delete(int id)
+//        public async Task<IActionResult> KvsProject_Delete(int id)
 //        {
-//            return (await _renewalReminderService.DeleteRenewalReminder(id)).ToJson();
+//            return (await _KvsProjectService.DeleteKvsProject(id)).ToJson();
 //        }
 //    }
 //}

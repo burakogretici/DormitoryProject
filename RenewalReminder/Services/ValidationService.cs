@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using RenewalReminder.Domain;
+using KvsProject.Domain;
 
-namespace RenewalReminder.Services
+namespace KvsProject.Services
 {
     public interface IValidationService
     {

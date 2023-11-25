@@ -1,18 +1,18 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using RenewalReminder.Models;
-using RenewalReminder.Services.Abstract;
+using KvsProject.Models;
+using KvsProject.Services.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using static System.Net.Mime.MediaTypeNames;
-using RenewalReminder.Domain;
+using KvsProject.Domain;
 using System.Diagnostics.Metrics;
 
-namespace RenewalReminder.Controllers;
+namespace KvsProject.Controllers;
 
 public class HomeController : Controller
 {
     private readonly IAuthService _authService;
-    //private readonly IRenewalReminderService _renewalReminderService;
+    //private readonly IKvsProjectService _KvsProjectService;
 
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IUserAccessor _userAccessor;
@@ -20,7 +20,7 @@ public class HomeController : Controller
     public HomeController(IAuthService authService, IWebHostEnvironment webHostEnvironment, IUserAccessor userAccessor = null)
     {
         _authService = authService;
-        //_renewalReminderService = renewalReminderService;
+        //_KvsProjectService = KvsProjectService;
         _webHostEnvironment = webHostEnvironment;
         _userAccessor = userAccessor;
     }
@@ -35,16 +35,16 @@ public class HomeController : Controller
         //var date = DateTime.Now.AddYears(i);
         //ViewBag.Date = date;
 
-        //var userRenewals = await _renewalReminderService.Query<UserRenewalReminder>(x => x.Deleted != true && x.UserId == _userAccessor.User.Id && (x.RenewalReminder.EndDate < date || x.RenewalReminder.EndDate == null), "RenewalReminder");
+        //var userRenewals = await _KvsProjectService.Query<UserKvsProject>(x => x.Deleted != true && x.UserId == _userAccessor.User.Id && (x.KvsProject.EndDate < date || x.KvsProject.EndDate == null), "KvsProject");
 
-        //var renewals = new List<MonthByRenewalReminderModel>();
+        //var renewals = new List<MonthByKvsProjectModel>();
         //if (userRenewals.Data != null && userRenewals.Data.Count() > 1)
         //{
-        //    renewals = userRenewals.Data.GroupBy(a => a.RenewalReminder.StartDate.Month).Select(a => new MonthByRenewalReminderModel
+        //    renewals = userRenewals.Data.GroupBy(a => a.KvsProject.StartDate.Month).Select(a => new MonthByKvsProjectModel
         //    {
         //        Key= a.Key,
         //        Value = Month(a.Key),
-        //        RenewalReminders = a.Select(a => a.RenewalReminder).OrderBy(a=>a.StartDate).ToList(),
+        //        KvsProjects = a.Select(a => a.KvsProject).OrderBy(a=>a.StartDate).ToList(),
         //    }).OrderBy(x=>x.Key).ToList();
         //}
 

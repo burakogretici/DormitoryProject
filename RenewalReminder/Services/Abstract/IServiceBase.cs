@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using RenewalReminder.Data;
-using RenewalReminder.Domain;
-using RenewalReminder.Models;
-using RenewalReminder.Services.Abstract;
-using RenewalReminder.Services;
+using KvsProject.Data;
+using KvsProject.Domain;
+using KvsProject.Models;
+using KvsProject.Services.Abstract;
+using KvsProject.Services;
 
-namespace RenewalReminder.Service
+namespace KvsProject.Service
 {
     public interface IServiceBase
     {

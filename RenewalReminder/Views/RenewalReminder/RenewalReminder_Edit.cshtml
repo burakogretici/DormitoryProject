@@ -1,5 +1,5 @@
-﻿@* @using RenewalReminder.Domain.Enums;
-@model RenewalReminder.Domain.RenewalReminder
+﻿@* @using KvsProject.Domain.Enums;
+@model KvsProject.Domain.KvsProject
 @{
     var idx = 0;
     var today = DateTime.Now;
@@ -29,7 +29,7 @@ else
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-8">
-                    <form id="frmEdit" action="/RenewalReminder/RenewalReminder_Save" method="post">
+                    <form id="frmEdit" action="/KvsProject/KvsProject_Save" method="post">
                         <div class="form-group row">
                             <label class="col-form-label col-lg-3 required" asp-for="Title"></label>
                             <div class="col-lg-9">
@@ -72,12 +72,12 @@ else
                             <div class="col-12">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        @foreach (var item in Model.UserRenewalReminders)
+                                        @foreach (var item in Model.UserKvsProjects)
                                         {
                                             <div>
                                                 <checkbox id="users_@(idx)__Deleted" name="users[@(idx)].Deleted" value="@(item.Id > 0)" label="@(item.User.Name + " " + item.User.Surname )" />
                                                 <input type="hidden" name="users[@(idx)].UserId" value="@(item.UserId)" />
-                                                <input type="hidden" name="users[@(idx)].RenewalReminderId" value="@(item.RenewalReminderId)" />
+                                                <input type="hidden" name="users[@(idx)].KvsProjectId" value="@(item.KvsProjectId)" />
                                             </div>
                                             idx++;
 
@@ -118,14 +118,14 @@ else
                         if (id == "0") {
                             if (history && history.replaceState) {
                                 $("#Id").val(result.data.id);
-                                history.replaceState({}, document.title, "/RenewalReminder/RenewalReminder_Edit/" + result.data.id);
+                                history.replaceState({}, document.title, "/KvsProject/KvsProject_Edit/" + result.data.id);
                             }
                             else {
-                                kvs.gotoUrl("/RenewalReminder/RenewalReminder_Edit/" + result.data.id);
+                                kvs.gotoUrl("/KvsProject/KvsProject_Edit/" + result.data.id);
                             }
                         }
                     });
-                    kvs.gotoUrl("/RenewalReminder/Index");
+                    kvs.gotoUrl("/KvsProject/Index");
                 });
             }
         }

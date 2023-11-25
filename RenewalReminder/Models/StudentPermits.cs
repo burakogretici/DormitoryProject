@@ -1,7 +1,7 @@
-﻿using RenewalReminder.Domain;
+﻿using KvsProject.Domain;
 using System.ComponentModel.DataAnnotations;
 
-namespace RenewalReminder.Models
+namespace KvsProject.Models
 {
     public class StudentPermits 
     {

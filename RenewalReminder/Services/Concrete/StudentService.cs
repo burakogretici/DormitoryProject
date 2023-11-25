@@ -1,9 +1,9 @@
-﻿using RenewalReminder.Data;
-using RenewalReminder.Domain;
-using RenewalReminder.Services.Abstract;
-using RenewalReminderr.Domain.Exceptions;
+﻿using KvsProject.Data;
+using KvsProject.Domain;
+using KvsProject.Services.Abstract;
+using KvsProjectr.Domain.Exceptions;
 
-namespace RenewalReminder.Services.Concrete
+namespace KvsProject.Services.Concrete
 {
     public class StudentService : ServiceBase, IStudentService
     {

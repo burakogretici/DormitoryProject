@@ -2,21 +2,21 @@
 using System.Linq.Expressions;
 using System.Text;
 using System.Text.Json;
-using RenewalReminder.Domain;
-using RenewalReminder.Services;
+using KvsProject.Domain;
+using KvsProject.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using NuGet.Protocol;
-using RenewalReminder.Services.Abstract;
+using KvsProject.Services.Abstract;
 using RenewalRemindr.Models;
-using RenewalReminder.Models;
+using KvsProject.Models;
 using System.Collections;
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace RenewalReminder
+namespace KvsProject
 
 {
     public static class Extensions

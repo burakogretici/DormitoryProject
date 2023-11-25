@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "RenewalReminder": {
+    "KvsProject": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

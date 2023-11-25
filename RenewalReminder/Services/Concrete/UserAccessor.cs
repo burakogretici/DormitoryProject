@@ -1,11 +1,11 @@
-﻿using RenewalReminder.Domain;
-using RenewalReminder.Services.Abstract;
+﻿using KvsProject.Domain;
+using KvsProject.Services.Abstract;
 using System;
 using System.Linq;
 using System.Text.Json;
 
 
-namespace RenewalReminder.Services.Concrete
+namespace KvsProject.Services.Concrete
 {
     public class UserAccessor : IUserAccessor
     {

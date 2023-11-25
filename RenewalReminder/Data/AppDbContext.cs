@@ -1,8 +1,8 @@
 ﻿using System;
-using RenewalReminder.Domain;
+using KvsProject.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace RenewalReminder.Data
+namespace KvsProject.Data
 {
 	public class AppDbContext : DbContext
     {

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace RenewalReminder.Migrations
+namespace KvsProject.Migrations
 {
     /// <inheritdoc />
     public partial class mig3 : Migration

@@ -1,7 +1,7 @@
-﻿using RenewalReminder.Domain.Validations;
+﻿using KvsProject.Domain.Validations;
 using System.ComponentModel.DataAnnotations;
 
-namespace RenewalReminder.Domain
+namespace KvsProject.Domain
 {
     public class Permission : Entity
     {

@@ -1,13 +1,13 @@
 ﻿//using Microsoft.EntityFrameworkCore.Metadata.Internal;
-//using RenewalReminder.Domain.Enums;
-//using RenewalReminder.Domain.Validations;
+//using KvsProject.Domain.Enums;
+//using KvsProject.Domain.Validations;
 //using System.ComponentModel.DataAnnotations;
 //using System.ComponentModel.DataAnnotations.Schema;
 
-//namespace RenewalReminder.Domain
+//namespace KvsProject.Domain
 //{
 //    [Serializable]
-//    public class RenewalReminder  : Entity
+//    public class KvsProject  : Entity
 //    {
 //        [Display(Name = "Başlık")]
 //        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(ValidationResource))]
@@ -30,6 +30,6 @@
 //        [Display(Name = "Bitiş Tarihi")]
 //        public DateTime? EndDate { get; set; }
 
-//        public List<UserRenewalReminder>? UserRenewalReminders { get; set; }
+//        public List<UserKvsProject>? UserKvsProjects { get; set; }
 //    }
 //}

@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using RenewalReminder.Components;
-using RenewalReminder.Services.Abstract;
+using KvsProject.Components;
+using KvsProject.Services.Abstract;
 using RenewalRemindr.Models;
 
-namespace RenewalReminder.CS.Web.Components
+namespace KvsProject.CS.Web.Components
 {
     [HtmlTargetElement("grid")]
     public class Grid : TagHelper

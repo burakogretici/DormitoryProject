@@ -1,5 +1,5 @@
 ﻿@{
-    var user = ViewContext.HttpContext.Items["User"] as RenewalReminder.Domain.User;
+    var user = ViewContext.HttpContext.Items["User"] as KvsProject.Domain.User;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -55,7 +55,7 @@
                     <span>Misafirler</span>
                 </a>
             </li>
-            @if (user.UserType == RenewalReminder.Domain.Enums.UserType.ADMIN)
+            @if (user.UserType == KvsProject.Domain.Enums.UserType.ADMIN)
             {
                 <li class="nav-item">
                     <a class="nav-link" href="/User/Index">

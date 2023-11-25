@@ -1,8 +1,8 @@
-﻿using RenewalReminder.Domain.Enums;
-using RenewalReminder.Domain.Validations;
+﻿using KvsProject.Domain.Enums;
+using KvsProject.Domain.Validations;
 using System.ComponentModel.DataAnnotations;
 
-namespace RenewalReminder.Domain
+namespace KvsProject.Domain
 {
     public class Guest : Entity
     {

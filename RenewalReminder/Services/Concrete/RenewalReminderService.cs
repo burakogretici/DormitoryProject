@@ -1,25 +1,25 @@
-﻿//using RenewalReminder.Data;
-//using RenewalReminder.Domain;
-//using RenewalReminder.Service;
-//using RenewalReminder.Services.Abstract;
-//using RenewalReminderr.Domain.Exceptions;
+﻿//using KvsProject.Data;
+//using KvsProject.Domain;
+//using KvsProject.Service;
+//using KvsProject.Services.Abstract;
+//using KvsProjectr.Domain.Exceptions;
 
-//namespace RenewalReminder.Services.Concrete
+//namespace KvsProject.Services.Concrete
 //{
-//    public class RenewalReminderService : ServiceBase, IRenewalReminderService
+//    public class KvsProjectService : ServiceBase, IKvsProjectService
 //    {
-//        private readonly IRepository<Domain.RenewalReminder> _repositoryRenewalReminder;
-//        private readonly IRepository<UserRenewalReminder> _repositoryUserRenewalReminder;
+//        private readonly IRepository<Domain.KvsProject> _repositoryKvsProject;
+//        private readonly IRepository<UserKvsProject> _repositoryUserKvsProject;
 //        private readonly IRepository<User> _repositoryUser;
 
-//        public RenewalReminderService(IServiceProvider serviceProvider) : base(serviceProvider)
+//        public KvsProjectService(IServiceProvider serviceProvider) : base(serviceProvider)
 //        {
-//            _repositoryRenewalReminder = _serviceProvider.GetService<IRepository<Domain.RenewalReminder>>();
-//            _repositoryUserRenewalReminder = _serviceProvider.GetService<IRepository<UserRenewalReminder>>();
+//            _repositoryKvsProject = _serviceProvider.GetService<IRepository<Domain.KvsProject>>();
+//            _repositoryUserKvsProject = _serviceProvider.GetService<IRepository<UserKvsProject>>();
 //            _repositoryUser = _serviceProvider.GetService<IRepository<User>>();
 //        }
 
-//        public async Task<Result<Domain.RenewalReminder>> SaveRenewalReminder(Domain.RenewalReminder entity, List<UserRenewalReminder> userRenewalReminders)
+//        public async Task<Result<Domain.KvsProject>> SaveKvsProject(Domain.KvsProject entity, List<UserKvsProject> userKvsProjects)
 //        {
 //            var isTransactional = _unitOfWork.IsTransactional();
 //            try
@@ -27,15 +27,15 @@
 //                var validationResult = _validation.Validate(entity);
 //                if (validationResult.HasError)
 //                {
-//                    return new Result<Domain.RenewalReminder>(validationResult);
+//                    return new Result<Domain.KvsProject>(validationResult);
 //                }
-//                var validUserRenewalReminders = userRenewalReminders?.Where(a => !a.Deleted).ToList();
-//                entity.UserRenewalReminders = null;
+//                var validUserKvsProjects = userKvsProjects?.Where(a => !a.Deleted).ToList();
+//                entity.UserKvsProjects = null;
 
-//                var oldEntity = default(Domain.RenewalReminder);
+//                var oldEntity = default(Domain.KvsProject);
 //                if (entity.Id > 0)
 //                {
-//                    oldEntity = await _repositoryRenewalReminder.Get(a => a.Id == entity.Id);
+//                    oldEntity = await _repositoryKvsProject.Get(a => a.Id == entity.Id);
 //                    if (oldEntity == null)
 //                    {
 //                        throw new BusException("Güncellenecek kayıt bulunamadı.");
@@ -45,25 +45,25 @@
 
 //                if (entity.Id > 0)
 //                {
-//                    await _repositoryRenewalReminder.Update(entity);
+//                    await _repositoryKvsProject.Update(entity);
 //                }
 //                else
 //                {
-//                    await _repositoryRenewalReminder.Add(entity);
+//                    await _repositoryKvsProject.Add(entity);
 //                }
 
-//                if (userRenewalReminders != null)
+//                if (userKvsProjects != null)
 //                {
 //                    if (oldEntity != null)
 //                    {
-//                        var oldUserReminders = await _repositoryUserRenewalReminder.Query(a => a.RenewalReminderId == entity.Id);
-//                        foreach (var item in validUserRenewalReminders)
+//                        var oldUserReminders = await _repositoryUserKvsProject.Query(a => a.KvsProjectId == entity.Id);
+//                        foreach (var item in validUserKvsProjects)
 //                        {
 //                            var oldUserReminder = oldUserReminders.FirstOrDefault(a => a.UserId == item.UserId);
 //                            if (oldUserReminder == null)
 //                            {
-//                                item.RenewalReminderId = entity.Id;
-//                                var saveResult = await SaveUserRenewalReminder(item);
+//                                item.KvsProjectId = entity.Id;
+//                                var saveResult = await SaveUserKvsProject(item);
 //                                if (saveResult.HasError)
 //                                {
 //                                    throw new BusException(saveResult);
@@ -71,17 +71,17 @@
 //                            }
 
 //                        }
-//                        foreach (var item in oldUserReminders.Where(a => !validUserRenewalReminders.Any(b => b.UserId == a.UserId)))
+//                        foreach (var item in oldUserReminders.Where(a => !validUserKvsProjects.Any(b => b.UserId == a.UserId)))
 //                        {
-//                            await DeleteUserRenewalReminder(item);
+//                            await DeleteUserKvsProject(item);
 //                        }
 //                    }
 //                    else
 //                    {
-//                        foreach (var item in validUserRenewalReminders)
+//                        foreach (var item in validUserKvsProjects)
 //                        {
-//                            item.RenewalReminderId = entity.Id;
-//                            var saveResult = await SaveUserRenewalReminder(item);
+//                            item.KvsProjectId = entity.Id;
+//                            var saveResult = await SaveUserKvsProject(item);
 //                            if (saveResult.HasError)
 //                            {
 //                                throw new BusException(saveResult);
@@ -90,18 +90,18 @@
 //                    }
 //                }
 
-//                return new Result<Domain.RenewalReminder>() { Data = entity };
+//                return new Result<Domain.KvsProject>() { Data = entity };
 //            }
 //            catch (Exception ex)
 //            {
 //                if (!isTransactional)
 //                {
-//                    return new Result<Domain.RenewalReminder>(ex.Message);
+//                    return new Result<Domain.KvsProject>(ex.Message);
 //                }
 //                throw;
 //            }
 //        }
-//        public async Task<Result> DeleteRenewalReminder(int id)
+//        public async Task<Result> DeleteKvsProject(int id)
 //        {
 //            var isTransactional = _unitOfWork.IsTransactional();
 //            try
@@ -111,19 +111,19 @@
 //                    await _unitOfWork.BeginTransaction();
 //                }
 
-//                var getQuery = NewQuery<Domain.RenewalReminder>(a => a.Id == id);
-//                var entity = await _repositoryRenewalReminder.Get(id);
+//                var getQuery = NewQuery<Domain.KvsProject>(a => a.Id == id);
+//                var entity = await _repositoryKvsProject.Get(id);
 //                if (entity == null)
 //                {
 //                    throw new BusException("Silinecek kayıt bulunamadı.");
 //                }
-//                var userReminders = await _repositoryUserRenewalReminder.Query(a => a.RenewalReminderId == entity.Id);
+//                var userReminders = await _repositoryUserKvsProject.Query(a => a.KvsProjectId == entity.Id);
 //                foreach (var item in userReminders)
 //                {
-//                    await DeleteUserRenewalReminder(item);
+//                    await DeleteUserKvsProject(item);
 //                }
 
-//                await _repositoryRenewalReminder.Delete(entity);
+//                await _repositoryKvsProject.Delete(entity);
 
 //                if (!isTransactional)
 //                {
@@ -143,7 +143,7 @@
 //            }
 //        }
 
-//        public async Task<Result<UserRenewalReminder>> SaveUserRenewalReminder(UserRenewalReminder entity)
+//        public async Task<Result<UserKvsProject>> SaveUserKvsProject(UserKvsProject entity)
 //        {
 //            var isTransactional = _unitOfWork.IsTransactional();
 //            try
@@ -151,22 +151,22 @@
 //                var validationResult = _validation.Validate(entity);
 //                if (validationResult.HasError)
 //                {
-//                    return new Result<UserRenewalReminder>(validationResult);
+//                    return new Result<UserKvsProject>(validationResult);
 //                }
 
-//                var oldEntity = default(UserRenewalReminder);
+//                var oldEntity = default(UserKvsProject);
 //                if (entity.Id > 0)
 //                {
-//                    var getQuery = NewQuery<UserRenewalReminder>(a => a.Id == entity.Id);
+//                    var getQuery = NewQuery<UserKvsProject>(a => a.Id == entity.Id);
 
-//                    oldEntity = await _repositoryUserRenewalReminder.Get(getQuery);
+//                    oldEntity = await _repositoryUserKvsProject.Get(getQuery);
 //                    if (oldEntity == null)
 //                    {
 //                        throw new BusException("Güncellenecek kayıt bulunamadı.");
 //                    }
 //                    entity.CreateDate = oldEntity.CreateDate;
 //                    entity.UserId = oldEntity.UserId;
-//                    entity.RenewalReminderId = oldEntity.RenewalReminderId;
+//                    entity.KvsProjectId = oldEntity.KvsProjectId;
 //                }
 
 //                if (oldEntity == null)
@@ -177,20 +177,20 @@
 //                        throw new BusException("Kullanıcı bulunamadı.");
 //                    }
 
-//                    var renewalQuery = NewQuery<Domain.RenewalReminder>(a => a.Id == entity.RenewalReminderId);
+//                    var renewalQuery = NewQuery<Domain.KvsProject>(a => a.Id == entity.KvsProjectId);
 
 
-//                    var renewalReminder = await _repositoryRenewalReminder.Get(renewalQuery, a => new Domain.RenewalReminder()
+//                    var KvsProject = await _repositoryKvsProject.Get(renewalQuery, a => new Domain.KvsProject()
 //                    {
 //                        Id = a.Id,
 //                    });
 
-//                    if (renewalReminder == null)
+//                    if (KvsProject == null)
 //                    {
 //                        throw new BusException("Hatırlatıcı bulunamadı.");
 //                    }
 
-//                    exists = await _repositoryUserRenewalReminder.Any(a => a.UserId == entity.UserId && a.RenewalReminderId == entity.RenewalReminderId);
+//                    exists = await _repositoryUserKvsProject.Any(a => a.UserId == entity.UserId && a.KvsProjectId == entity.KvsProjectId);
 //                    if (exists)
 //                    {
 //                        throw new BusException("Kullanıcıya bu hatırlatıcı daha önceden eklenmiş.");
@@ -200,37 +200,37 @@
 
 //                if (entity.Id > 0)
 //                {
-//                    await _repositoryUserRenewalReminder.Update(entity);
+//                    await _repositoryUserKvsProject.Update(entity);
 //                }
 //                else
 //                {
-//                    await _repositoryUserRenewalReminder.Add(entity);
+//                    await _repositoryUserKvsProject.Add(entity);
 //                }
-//                return new Result<UserRenewalReminder>() { Data = entity };
+//                return new Result<UserKvsProject>() { Data = entity };
 //            }
 //            catch (Exception ex)
 //            {
 //                if (!isTransactional)
 //                {
-//                    return new Result<UserRenewalReminder>(ex.Message);
+//                    return new Result<UserKvsProject>(ex.Message);
 //                }
 //                throw;
 //            }
 //        }
 
-//        public async Task<Result> DeleteUserRenewalReminder(int id)
+//        public async Task<Result> DeleteUserKvsProject(int id)
 //        {
 //            var isTransactional = _unitOfWork.IsTransactional();
 //            try
 //            {
-//                var getQuery = NewQuery<UserRenewalReminder>(a => a.Id == id);
-//                var entity = await _repositoryUserRenewalReminder.Get(getQuery);
+//                var getQuery = NewQuery<UserKvsProject>(a => a.Id == id);
+//                var entity = await _repositoryUserKvsProject.Get(getQuery);
 //                if (entity == null)
 //                {
 //                    throw new BusException("Silinecek kayıt bulunamadı.");
 //                }
 
-//                await DeleteUserRenewalReminder(entity);
+//                await DeleteUserKvsProject(entity);
 
 //                return new Result();
 //            }
@@ -245,9 +245,9 @@
 //            }
 //        }
 
-//        private async Task DeleteUserRenewalReminder(UserRenewalReminder entity)
+//        private async Task DeleteUserKvsProject(UserKvsProject entity)
 //        {
-//            await _repositoryUserRenewalReminder.Delete(entity);
+//            await _repositoryUserKvsProject.Delete(entity);
 //        }
 //    }
 //}

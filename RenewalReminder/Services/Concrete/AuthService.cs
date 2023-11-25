@@ -1,8 +1,8 @@
-﻿using RenewalReminder.Data;
-using RenewalReminder.Domain;
-using RenewalReminder.Services.Abstract;
+﻿using KvsProject.Data;
+using KvsProject.Domain;
+using KvsProject.Services.Abstract;
 
-namespace RenewalReminder.Services.Concrete
+namespace KvsProject.Services.Concrete
 {
     public class AuthService : ServiceBase,IAuthService
     {

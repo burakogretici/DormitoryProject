@@ -1,7 +1,7 @@
-﻿using RenewalReminder.Domain;
+﻿using KvsProject.Domain;
 using System;
 
-namespace RenewalReminder.Services.Abstract
+namespace KvsProject.Services.Abstract
 {
     public interface IUserAccessor
     {

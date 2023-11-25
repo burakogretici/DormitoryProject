@@ -1,11 +1,11 @@
-﻿@using RenewalReminder.Domain;
-@using RenewalReminder.Domain.Enums;
+﻿@using KvsProject.Domain;
+@using KvsProject.Domain.Enums;
 @using RenewalRemindr.Models;
 @model Central
 @{
     ViewBag.Title = "Giriş-Çıkış Kaydı";
     var todayIsSunday = DateTime.Today.DayOfWeek == DayOfWeek.Sunday;
-    var user = ViewContext.HttpContext.Items["User"] as RenewalReminder.Domain.User;
+    var user = ViewContext.HttpContext.Items["User"] as KvsProject.Domain.User;
 
 }
 <div class="card" style="margin-bottom:5px;">
@@ -52,7 +52,7 @@
 </div>
 <div class="card mb-1 d-max-height">
     <grid class="table table-lg" url="/Central/Central_Read">
-        @if (user.UserType == RenewalReminder.Domain.Enums.UserType.ADMIN)
+        @if (user.UserType == KvsProject.Domain.Enums.UserType.ADMIN)
         {
             <column for="Id" template="kvs.grdEdit" orderable="false" title="@(Html.Raw("<i class=\"fas fa-check\"></i>"))" style="width:2rem"></column>
             <column for="Id" template="editIn" orderable="false" title="Geldi mi?" style="width:2rem"></column>

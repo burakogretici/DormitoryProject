@@ -1,20 +1,20 @@
-﻿@* @model RenewalReminder.Domain.UserRenewalReminder
+﻿@* @model KvsProject.Domain.UserKvsProject
 @{
     ViewBag.Title = "Hatırlatıcılar";
 }
 
 <div class="card mb-1 d-max-height">
-    <grid class="table table-lg" url="/RenewalReminder/RenewalReminder_Read">
-        <column for="RenewalReminderId" orderable="false" template="kvs.grdEdit" title="@(Html.Raw("<i class=\"fas fa-check\"></i>"))" style="width:2rem"></column>
-        <column for="RenewalReminder.Title"></column>
-        <column for="RenewalReminder.Description"></column>
-        <column for="RenewalReminder.ReminderPeriod" template="formatReminder"></column>
-        <column for="RenewalReminder.StartDate" template="formatDate"></column>
-        <column for="RenewalReminder.EndDate" template="formatDate"></column>
+    <grid class="table table-lg" url="/KvsProject/KvsProject_Read">
+        <column for="KvsProjectId" orderable="false" template="kvs.grdEdit" title="@(Html.Raw("<i class=\"fas fa-check\"></i>"))" style="width:2rem"></column>
+        <column for="KvsProject.Title"></column>
+        <column for="KvsProject.Description"></column>
+        <column for="KvsProject.ReminderPeriod" template="formatReminder"></column>
+        <column for="KvsProject.StartDate" template="formatDate"></column>
+        <column for="KvsProject.EndDate" template="formatDate"></column>
 
 
         <filters class="m-0 p-2" column-count="4">
-            <field for="RenewalReminder.Title" type="TEXT" lg-size="2" place-holder="Ara..."></field>
+            <field for="KvsProject.Title" type="TEXT" lg-size="2" place-holder="Ara..."></field>
             <field type="BUTTON" onclick="editRecord()" class="btn btn-sm btn-warning text-nowrap ml-3">
                 <i class="fas fa-plus-circle mr-1"></i> Yeni Kayıt
             </field>
@@ -60,13 +60,13 @@
                 grid = kvs.grid(".grid");
             }
 
-            kvs.gotoUrl("/RenewalReminder/RenewalReminder_Edit/" + (data ? data.renewalReminderId : 0));
+            kvs.gotoUrl("/KvsProject/KvsProject_Edit/" + (data ? data.KvsProjectId : 0));
 
         }
         function deleteRecord(data) {
             var grid = this;
             kvs.confirm("Kayıt silme onay", "Kayıdı silmek istediğinize emin misiniz?", function () {
-                kvs.callJx("/RenewalReminder/RenewalReminder_Delete", "body", { id: data.renewalReminderId }, function () {
+                kvs.callJx("/KvsProject/KvsProject_Delete", "body", { id: data.KvsProjectId }, function () {
                     grid.load();
                 });
             });

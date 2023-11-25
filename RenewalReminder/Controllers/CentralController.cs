@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using RenewalReminder.Domain;
-using RenewalReminder.Services.Abstract;
+using KvsProject.Domain;
+using KvsProject.Services.Abstract;
 using RenewalRemindr.Models;
 
-namespace RenewalReminder.Controllers
+namespace KvsProject.Controllers
 {
     public class CentralController : Controller
     {

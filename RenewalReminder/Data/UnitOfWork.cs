@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace RenewalReminder.Data
+namespace KvsProject.Data
 {
     public interface IUnitOfWork : IDisposable
     {

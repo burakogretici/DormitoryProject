@@ -1,8 +1,8 @@
-﻿using RenewalReminder.Domain;
+﻿using KvsProject.Domain;
 using System;
 
 
-namespace   RenewalReminderr.Domain.Exceptions
+namespace   KvsProjectr.Domain.Exceptions
 {
     public class BusException : Exception
     {

@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Text;
 
-namespace RenewalReminder.Models
+namespace KvsProject.Models
 {
     public static class RuntimeTypeBuilder
     {

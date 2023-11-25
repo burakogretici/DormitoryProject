@@ -1,7 +1,7 @@
-﻿using RenewalReminder.Domain;
-using RenewalReminder.Service;
+﻿using KvsProject.Domain;
+using KvsProject.Service;
 
-namespace RenewalReminder.Services.Abstract
+namespace KvsProject.Services.Abstract
 {
     public interface IAuthService : IServiceBase
     {

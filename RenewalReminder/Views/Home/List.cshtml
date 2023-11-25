@@ -1,5 +1,5 @@
-﻿@using RenewalReminder.Domain
-@model IEnumerable<MonthByRenewalReminderModel>
+﻿@using KvsProject.Domain
+@model IEnumerable<MonthByKvsProjectModel>
 @{
     var date = ViewBag.Date;
     var month = DateTime.Now;
@@ -34,7 +34,7 @@
                 </th>
                 }
 
-              @*   @foreach (var item2 in item.RenewalReminders)
+              @*   @foreach (var item2 in item.KvsProjects)
                 {
                 <tr>
                     <td style="padding-right:5cm; color: black;font-style: italic;font-weight: 600;">

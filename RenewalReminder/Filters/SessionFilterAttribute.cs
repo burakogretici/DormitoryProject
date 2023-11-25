@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Web;
-using RenewalReminder.Services.Abstract;
+using KvsProject.Services.Abstract;
 
-namespace RenewalReminder.Filters
+namespace KvsProject.Filters
 {
     public class SessionFilterAttribute : TypeFilterAttribute
     {

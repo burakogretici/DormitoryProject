@@ -1,11 +1,11 @@
-﻿using RenewalReminder.Data;
-using RenewalReminder.Domain;
-using RenewalReminder.Domain.Enums;
-using RenewalReminder.Services.Abstract;
-using RenewalReminderr.Domain.Exceptions;
+﻿using KvsProject.Data;
+using KvsProject.Domain;
+using KvsProject.Domain.Enums;
+using KvsProject.Services.Abstract;
+using KvsProjectr.Domain.Exceptions;
 using System.Text.RegularExpressions;
 
-namespace RenewalReminder.Services.Concrete
+namespace KvsProject.Services.Concrete
 {
     public class UserService : ServiceBase, IUserService
     {

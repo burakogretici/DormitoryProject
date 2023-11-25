@@ -1,10 +1,10 @@
-﻿//using RenewalReminder.Domain.Validations;
+﻿//using KvsProject.Domain.Validations;
 //using System.ComponentModel.DataAnnotations;
 
-//namespace RenewalReminder.Domain
+//namespace KvsProject.Domain
 //{
 //    [Serializable]
-//    public class UserRenewalReminder : Entity
+//    public class UserKvsProject : Entity
 //    {
 //        [Display(Name = "Kullanıcı")]
 //        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(ValidationResource))]
@@ -12,9 +12,9 @@
 
 //        [Display(Name = "Hatırlatıcı")]
 //        [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(ValidationResource))]
-//        public int RenewalReminderId { get; set; }
+//        public int KvsProjectId { get; set; }
 
 //        public User? User { get; set; }
-//        public RenewalReminder? RenewalReminder { get; set; }
+//        public KvsProject? KvsProject { get; set; }
 //    }
 //}

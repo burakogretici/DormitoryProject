@@ -1,11 +1,11 @@
-﻿using RenewalReminder.Data;
-using RenewalReminder.Domain;
-using RenewalReminder.Models;
-using RenewalReminder.Service;
-using RenewalReminder.Services.Abstract;
+﻿using KvsProject.Data;
+using KvsProject.Domain;
+using KvsProject.Models;
+using KvsProject.Service;
+using KvsProject.Services.Abstract;
 using System.Linq.Expressions;
 
-namespace RenewalReminder.Services.Concrete
+namespace KvsProject.Services.Concrete
 {
     public class ServiceBase : IServiceBase
     {

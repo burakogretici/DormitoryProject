@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RenewalReminder.Domain
+namespace KvsProject.Domain
 {
     public class EntityValidationResult
     {

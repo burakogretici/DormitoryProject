@@ -1,5 +1,5 @@
 ﻿using System;
-namespace RenewalReminder.Domain.Validations
+namespace KvsProject.Domain.Validations
 {
     internal class ValidationResource
     {

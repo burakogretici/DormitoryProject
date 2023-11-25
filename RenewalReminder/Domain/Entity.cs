@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RenewalReminder.Domain
+namespace KvsProject.Domain
 {
 	public class Entity
 	{

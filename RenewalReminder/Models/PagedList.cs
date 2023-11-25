@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RenewalReminder.Models
+namespace KvsProject.Models
 {
     public class PagedList<T> : IList<T>, IEnumerable<T>, ICollection<T>
     {

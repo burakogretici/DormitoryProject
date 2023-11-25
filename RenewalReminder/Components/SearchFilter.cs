@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using RenewalReminder.CS.Web.Components;
+using KvsProject.CS.Web.Components;
 using RenewalRemindr.Models;
 
-namespace RenewalReminder.Components
+namespace KvsProject.Components
 {
     [HtmlTargetElement("filters")]
     public class SearchFilter : TagHelper

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RenewalReminder.Domain;
-using RenewalReminder.Models;
-using RenewalReminder.Services.Abstract;
+using KvsProject.Domain;
+using KvsProject.Models;
+using KvsProject.Services.Abstract;
 using RenewalRemindr.Models;
 
-namespace RenewalReminder.Controllers
+namespace KvsProject.Controllers
 {
     public class ReportController : Controller
     {

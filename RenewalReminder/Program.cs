@@ -1,9 +1,9 @@
-using RenewalReminder.Data;
-using RenewalReminder.Services;
+using KvsProject.Data;
+using KvsProject.Services;
 using Microsoft.EntityFrameworkCore;
-using RenewalReminder.Services.Abstract;
-using RenewalReminder.Services.Concrete;
-using RenewalReminder.Filters;
+using KvsProject.Services.Abstract;
+using KvsProject.Services.Concrete;
+using KvsProject.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 

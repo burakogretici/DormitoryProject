@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
-using RenewalReminder.Domain;
-using RenewalReminder.Services.Abstract;
+using KvsProject.Domain;
+using KvsProject.Services.Abstract;
 using RenewalRemindr.Models;
 
-namespace RenewalReminder.Controllers
+namespace KvsProject.Controllers
 {
     public class StudentController : Controller
     {

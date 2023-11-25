@@ -1,4 +1,4 @@
-﻿namespace RenewalReminder.Domain.Enums
+﻿namespace KvsProject.Domain.Enums
 {
     public enum PasswordScore : int
     {

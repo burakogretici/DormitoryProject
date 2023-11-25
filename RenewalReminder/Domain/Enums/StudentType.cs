@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RenewalReminder.Domain.Enums
+namespace KvsProject.Domain.Enums
 {
     public enum StudentType
     {

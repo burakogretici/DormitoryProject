@@ -1,9 +1,9 @@
-﻿using RenewalReminder.Domain;
+﻿using KvsProject.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace RenewalReminder.Models
+namespace KvsProject.Models
 {
     public class PagedQuery<T> where T : Entity
     {

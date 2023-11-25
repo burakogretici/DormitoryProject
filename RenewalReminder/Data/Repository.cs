@@ -1,10 +1,10 @@
 ﻿using System;
-using RenewalReminder.Domain;
+using KvsProject.Domain;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using RenewalReminder.Models;
+using KvsProject.Models;
 
-namespace RenewalReminder.Data
+namespace KvsProject.Data
 {
     public interface IRepository<T> : IDisposable where T : Entity
     {

@@ -1,4 +1,4 @@
-namespace RenewalReminder.Models
+namespace KvsProject.Models
 {
     public class ErrorViewModel
     {

@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RenewalReminder.Data;
+using KvsProject.Data;
 
 #nullable disable
 
-namespace RenewalReminder.Migrations
+namespace KvsProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20231119170558_mig_10")]
@@ -25,7 +25,7 @@ namespace RenewalReminder.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("RenewalReminder.Domain.Guest", b =>
+            modelBuilder.Entity("KvsProject.Domain.Guest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -70,7 +70,7 @@ namespace RenewalReminder.Migrations
                     b.ToTable("Guests");
                 });
 
-            modelBuilder.Entity("RenewalReminder.Domain.Permission", b =>
+            modelBuilder.Entity("KvsProject.Domain.Permission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -109,7 +109,7 @@ namespace RenewalReminder.Migrations
                     b.UseTphMappingStrategy();
                 });
 
-            modelBuilder.Entity("RenewalReminder.Domain.Student", b =>
+            modelBuilder.Entity("KvsProject.Domain.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -154,7 +154,7 @@ namespace RenewalReminder.Migrations
                     b.ToTable("Students");
                 });
 
-            modelBuilder.Entity("RenewalReminder.Domain.User", b =>
+            modelBuilder.Entity("KvsProject.Domain.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -199,9 +199,9 @@ namespace RenewalReminder.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("RenewalReminder.Domain.Central", b =>
+            modelBuilder.Entity("KvsProject.Domain.Central", b =>
                 {
-                    b.HasBaseType("RenewalReminder.Domain.Permission");
+                    b.HasBaseType("KvsProject.Domain.Permission");
 
                     b.Property<int?>("ElapsedTime")
                         .HasColumnType("int");
@@ -219,18 +219,18 @@ namespace RenewalReminder.Migrations
                     b.HasDiscriminator().HasValue("Central");
                 });
 
-            modelBuilder.Entity("RenewalReminder.Domain.MarketPermit", b =>
+            modelBuilder.Entity("KvsProject.Domain.MarketPermit", b =>
                 {
-                    b.HasBaseType("RenewalReminder.Domain.Permission");
+                    b.HasBaseType("KvsProject.Domain.Permission");
 
                     b.HasIndex("StudentId");
 
                     b.HasDiscriminator().HasValue("MarketPermit");
                 });
 
-            modelBuilder.Entity("RenewalReminder.Domain.Central", b =>
+            modelBuilder.Entity("KvsProject.Domain.Central", b =>
                 {
-                    b.HasOne("RenewalReminder.Domain.Student", "Student")
+                    b.HasOne("KvsProject.Domain.Student", "Student")
                         .WithMany("Centrals")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -239,9 +239,9 @@ namespace RenewalReminder.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("RenewalReminder.Domain.MarketPermit", b =>
+            modelBuilder.Entity("KvsProject.Domain.MarketPermit", b =>
                 {
-                    b.HasOne("RenewalReminder.Domain.Student", "Student")
+                    b.HasOne("KvsProject.Domain.Student", "Student")
                         .WithMany()
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -250,7 +250,7 @@ namespace RenewalReminder.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("RenewalReminder.Domain.Student", b =>
+            modelBuilder.Entity("KvsProject.Domain.Student", b =>
                 {
                     b.Navigation("Centrals");
                 });

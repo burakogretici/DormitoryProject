@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace RenewalReminder.Migrations
+namespace KvsProject.Migrations
 {
     /// <inheritdoc />
     public partial class mig10 : Migration
