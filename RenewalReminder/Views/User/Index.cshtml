@@ -1,0 +1,59 @@
+﻿@using RenewalReminder.Domain;
+@model User
+@{
+    ViewBag.Title = "Kullanıcılar";
+}
+
+<div class="card mb-1 d-max-height">
+    <grid class="table table-lg" url="/User/User_Read">
+        <column for="Id" orderable="false" template="kvs.grdEdit" title="@(Html.Raw("<i class=\"fas fa-check\"></i>"))" style="width:2rem"></column>
+        <column for="Username"></column>
+        <column for="Name"></column>
+        <column for="Surname"></column>
+        <column for="UserType" template="formatUserType"></column>
+
+
+        <filters class="m-0 p-2" column-count="4">
+            <field for="Name" type="TEXT" lg-size="2" place-holder="Ara..."></field>
+
+            <field type="BUTTON" onclick="editRecord()" class="btn btn-sm btn-warning text-nowrap ml-3">
+                <i class="fas fa-plus-circle mr-1"></i> Yeni Kayıt
+            </field>
+        </filters>
+    </grid>
+</div>
+
+@section scripts{
+    <script>
+
+        function editRecord(data) {
+            var grid = this;
+            if (!data) {
+                grid = kvs.grid(".grid");
+            }
+            kvs.gotoUrl("/User/User_Edit/" + (data ? data.id : 0));
+        }
+
+        function deleteRecord(data) {
+            debugger;
+            var grid = this;
+            kvs.confirm("Kayıt silme onay", "Kayıdı silmek istediğinize emin misiniz?", function () {
+                kvs.callJx("/User/User_Delete", "body", { id: data.id }, function () {
+                    grid.load();
+                });
+            });
+        }
+        function formatUserType(field, data, td) {
+            var value = kvs.value(data, field);
+            switch (value) {
+                case 1:
+                    return $("<span>", { html: "Admin" });
+                    break;
+                case 2:
+                    return $("<span>", { html: "Santralci" });
+                    break;
+                default:
+            }
+        }
+    </script>
+}

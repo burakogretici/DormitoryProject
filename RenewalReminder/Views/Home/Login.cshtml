@@ -1,0 +1,71 @@
+﻿@model RenewalReminder.Models.UserForLogin
+@{
+    Layout = null;
+    ViewBag.Title = "Kullanıcı Girişi";
+}
+<head>
+    <link href="/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/lib/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-12 col-md-9 align-self-center" style="margin-top: 3cm;">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">              
+                        <div class="col-lg-12">
+                            <div class="p-3">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Hesabınıza giriş yapınız</h1>
+                                </div>
+                                @if (!ViewContext.ModelState.IsValid)
+                                {
+                                    <div class="alert alert-danger" role="alert">
+                                        @(Html.Raw(ViewData.ModelState.GetErrorMessage()))
+                                    </div>
+                                }
+                                <form class="user" action="" method="post">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-user" asp-for="Username" placeholder="Email adresinizi giriniz..." />
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" class="form-control form-control-user" asp-for="Password" placeholder="Şifre" />
+                                    </div>
+
+                                    <button type="submit" class="btn btn-warning btn-user btn-block">Giriş</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <span>Copyright &copy; Burak Bilişim @(DateTime.Now.Year)</span><span class="d-none d-md-inline"> - </span><span class="d-block d-md-inline">Designed by <a href="" target="_blank"><img src="/images/png" /></a></span>
+                </div>
+            </div>
+
+        </div>
+        <script src="/lib//jquery/dist/jquery.min.js"></script>
+        <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="/lib/jquery-easing/jquery.easing.min.js"></script>
+        <script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="/lib/jquery/dist/messages_tr.js"></script>
+        <script src="/lib/jquery.mask.min.js"></script>
+        <script src="/lib/loaders/blockui.min.js"></script>
+        <script src="/js/sb-admin-2.min.js"></script>
+        <script src="/js/app.js"></script>
+</body>
+
+
+
+<script>
+    $().ready(function () {
+        $(".user").validate({
+            rules: {
+                Username: { required: true, maxlength: 400 },
+                Password: { required: true, maxlength: 400 },
+            }
+        });
+    });
+</script>

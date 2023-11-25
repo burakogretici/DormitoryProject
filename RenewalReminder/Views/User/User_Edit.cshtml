@@ -1,0 +1,147 @@
+﻿@using RenewalReminder.Domain;
+@using RenewalReminder.Domain.Enums;
+@model User
+@{
+    if (Model.Username != null)
+    {
+        ViewBag.Title = Model.Name + " - Kullanıcı Düzenleme";
+    }
+    else
+    {
+        ViewBag.Title = "Kullanıcı Oluşturma";
+    }
+}
+@if (Model == null)
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="alert alert-danger" role="alert">
+                @(Html.Raw(ViewData.ModelState.GetErrorMessage()))
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-8">
+                    <form id="frmEdit" action="/User/User_Save" method="post">
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="UserType"></label>
+                            <div class="col-lg-9">
+                                <select class="form-control" asp-for="UserType" asp-items="@(Html.GetEnumSelectList<UserType>())" onchange="userTypeChanged()"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="Username"></label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" asp-for="Username" />
+                            </div>
+                        </div>
+                        @if (Model.Id == 0)
+                        {
+                            <div class="form-group row">
+                                <label class="col-form-label col-lg-3 required" asp-for="Password"></label>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" asp-for="Password" />
+                                </div>
+                            </div>
+                        }
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="Name"></label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" asp-for="Name" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="Surname"></label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" asp-for="Surname" />
+                            </div>
+                        </div>
+                        @if (Model.Id > 0)
+                        {
+                            <div class="form-group row">
+                                <div class="col-lg-9 offset-lg-3">
+                                    <checkbox id="pwdCheckBox" label="Kullanıcı Şifresini Değiştir" onchange="changePassword()" />
+                                </div>
+                            </div>
+                            <div class="form-group row d-none" id="pwdContainer">
+                                <label class="col-form-label col-lg-3 required" asp-for="Password"></label>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" id="pwdInput" name="pwdInput" onchange="updatePassword()" />
+                                </div>
+                            </div>
+                        }
+                        @if (Model.Id > 0)
+                        {
+                            <input type="hidden" asp-for="Password" />
+                            <input type="hidden" id="oldPassword" value="@(Model.Password)" />
+                        }
+                        <input type="hidden" asp-for="Id" />
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <button type="button" class="btn btn-secondary" onclick="history.back()"><i class="fas fa-arrow-circle-left"></i> Geri</button>
+                </div>
+                <div class="col-lg-4 text-right">
+                    <button type="button" class="btn btn-warning" onclick="saveRecord()"><i class="fas fa-save"></i> Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section scripts{
+
+    <js-validation form-selector="#frmEdit">
+        <rule name="pwdInput" rules="required: true, passwordLen: true" />
+        <rule name="Password" rules="required: true, passwordLen: true" />
+    </js-validation>
+
+    <script>
+        function saveRecord() {
+            var form = $("#frmEdit");
+            var id = $("#Id").val();
+            if (form.valid()) {
+                kvs.postJx(form.attr("action"), "body", form, function (result) {
+                    kvs.alert("success", "Başarılı", "İşlem başarılı", function () {
+                        if (id == "0") {
+                            if (history && history.replaceState) {
+                                $("#Id").val(result.data.id);
+                                history.replaceState({}, document.title, "/User/User_Edit/" + result.data.id);
+                            }
+                            else {
+                                kvs.gotoUrl("/User/User_Edit/" + result.data.id);
+                            }
+                        }
+                    });
+                    kvs.gotoUrl("/User/Index");
+                });
+            }
+        }
+
+        function changePassword() {
+            if ($("#pwdCheckBox").get(0).checked) {
+                $("#pwdContainer").removeClass("d-none");
+            }
+            else {
+                $("#pwdContainer").addClass("d-none");
+                $("#Password").val($("#oldPassword").val());
+            }
+        }
+
+        function updatePassword() {
+            $("#Password").val($("#pwdInput").val());
+        }
+
+        $().ready(function () {
+            jQuery.validator.addMethod("requiredNonZero", function (value, element) {
+                return !kvs.isEmpty(value) && value != "0";
+            }, "Lütfen bir değer seçiniz.");
+        });
+    </script>
+    }
+}

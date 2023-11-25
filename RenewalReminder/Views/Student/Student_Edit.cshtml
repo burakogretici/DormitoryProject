@@ -1,0 +1,165 @@
+﻿@using RenewalReminder.Domain;
+@using RenewalReminder.Domain.Enums;
+@model Student
+@{
+    if (Model.Name != null)
+    {
+        ViewBag.Title = Model.Name + " - Talebe Düzenleme";
+    }
+    else
+    {
+        ViewBag.Title = "Talebe Oluşturma";
+    }
+}
+@if (Model == null)
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="alert alert-danger" role="alert">
+                @(Html.Raw(ViewData.ModelState.GetErrorMessage()))
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-8">
+                    <form id="frmEdit" action="/Student/Student_Save" method="post">
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="Name"></label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" asp-for="Name" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="Surname"></label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" asp-for="Surname" />
+                            </div>
+                        </div>
+                    @*     <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="Email"></label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" asp-for="Email" />
+                            </div>
+                        </div> *@
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="Number"></label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" asp-for="Number" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="Phone"></label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" asp-for="Phone" />
+                            </div>
+                        </div>
+
+                 @*        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="Region"></label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" asp-for="Region" />
+                            </div>
+                        </div> *@
+
+                 @*        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="StudentType"></label>
+                            <div class="col-lg-9">
+                                <select class="form-control" asp-for="StudentType" asp-items="@(Html.GetEnumSelectList<StudentType>())" onchange="userTypeChanged()"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="BloodGroup"></label>
+                            <div class="col-lg-9">
+                                <select class="form-control" asp-for="BloodGroup" asp-items="@(Html.GetEnumSelectList<BloodGroup>())" onchange="bloodGroupChanged()"></select>
+                            </div>
+                        </div> *@
+
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="FullName" />
+
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <button type="button" class="btn btn-secondary" onclick="history.back()"><i class="fas fa-arrow-circle-left"></i> Geri</button>
+                </div>
+                <div class="col-lg-4 text-right">
+                    <button type="button" class="btn btn-warning" onclick="saveRecord()"><i class="fas fa-save"></i> Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section scripts{
+    <js-validation form-selector="#frmEdit">
+        <rule name="Name" rules="requiredNonZero: true" />
+        <rule name="Surname" rules="requiredNonZero: true" />
+        <rule name="Number" rules="requiredNonZero: true" />
+    @*     <rule name="Region" rules="requiredNonZero: true" /> *@
+
+    </js-validation>
+
+    <script>
+        function saveRecord() {
+            var form = $("#frmEdit");
+            var id = $("#Id").val();
+            if (form.valid()) {
+                kvs.postJx(form.attr("action"), "body", form, function (result) {
+                    kvs.alert("success", "Başarılı", "İşlem başarılı", function () {
+                        if (id == "0") {
+                            if (history && history.replaceState) {
+                                $("#Id").val(result.data.id);
+                                history.replaceState({}, document.title, "/Student/Student_Edit/" + result.data.id);
+                            }
+                            else {
+                                kvs.gotoUrl("/Student/Student_Edit/" + result.data.id);
+                            }
+                        }
+                    });
+                    kvs.gotoUrl("/Student/Index");
+                });
+            }
+        }
+        function bloodGroupChanged() {
+            var value = $("#BloodGroup").val();
+            if ($("#BloodGroup").val() == "0") {
+                $(".hotel").addClass("d-none");
+                $(".hotel :input").val("0");
+                $(".metropol").removeClass("d-none");
+            }
+            else {
+                $(".metropol").addClass("d-none");
+                $(".metropol :input").val("0");
+                $(".hotel").removeClass("d-none");
+            }
+        }
+        function userTypeChanged() {
+            var value = $("#UserType").val();
+            if ($("#UserType").val() == "0") {
+                $(".hotel").addClass("d-none");
+                $(".hotel :input").val("0");
+                $(".metropol").removeClass("d-none");
+            }
+            else {
+                $(".metropol").addClass("d-none");
+                $(".metropol :input").val("0");
+                $(".hotel").removeClass("d-none");
+            }
+        }
+        $().ready(function () {
+            bloodGroupChanged();
+            userTypeChanged();
+            jQuery.validator.addMethod("requiredNonZero", function (value, element) {
+                return !kvs.isEmpty(value) && value != "0";
+            }, "Lütfen bir değer seçiniz.");
+        });
+    </script>
+
+    }
+}

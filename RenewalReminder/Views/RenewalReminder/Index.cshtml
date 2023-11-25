@@ -1,0 +1,76 @@
+﻿@* @model RenewalReminder.Domain.UserRenewalReminder
+@{
+    ViewBag.Title = "Hatırlatıcılar";
+}
+
+<div class="card mb-1 d-max-height">
+    <grid class="table table-lg" url="/RenewalReminder/RenewalReminder_Read">
+        <column for="RenewalReminderId" orderable="false" template="kvs.grdEdit" title="@(Html.Raw("<i class=\"fas fa-check\"></i>"))" style="width:2rem"></column>
+        <column for="RenewalReminder.Title"></column>
+        <column for="RenewalReminder.Description"></column>
+        <column for="RenewalReminder.ReminderPeriod" template="formatReminder"></column>
+        <column for="RenewalReminder.StartDate" template="formatDate"></column>
+        <column for="RenewalReminder.EndDate" template="formatDate"></column>
+
+
+        <filters class="m-0 p-2" column-count="4">
+            <field for="RenewalReminder.Title" type="TEXT" lg-size="2" place-holder="Ara..."></field>
+            <field type="BUTTON" onclick="editRecord()" class="btn btn-sm btn-warning text-nowrap ml-3">
+                <i class="fas fa-plus-circle mr-1"></i> Yeni Kayıt
+            </field>
+        </filters>
+    </grid>
+</div>
+
+@section scripts{
+    <script>
+        function formatDate(field, data, td) {
+            var value = kvs.value(data, field);
+            if (value) {
+                var result = value.substring(8, 10) + '/' + value.substring(5, 7) + '/' + value.substring(0, 4);
+                return result;
+            } else {
+                return $("<span>", { style: "font-size:100%", html: "-" });
+            }
+
+        }
+        function formatReminder(field, data, td) {
+            var value = kvs.value(data, field);
+            switch (value) {
+                case 1:
+                    return $("<span>", { class: "badge badge-danger", style: "font-size:100%", html: "Günlük" });
+                    break;
+                case 2:
+                    return $("<span>", { class: "badge badge-warning", style: "font-size:100%", html: "Haftalık" });
+                    break;
+                case 3:
+                    return $("<span>", { class: "badge badge badge-info", style: "font-size:100%", html: "Aylık" });
+                    break;
+                case 4:
+                    return $("<span>", { class: "badge badge-secondary", style: "font-size:100%", html: "Yıllık" });
+                    break;
+                default:
+
+            }
+
+        }
+        function editRecord(data) {
+            var grid = this;
+            if (!data) {
+                grid = kvs.grid(".grid");
+            }
+
+            kvs.gotoUrl("/RenewalReminder/RenewalReminder_Edit/" + (data ? data.renewalReminderId : 0));
+
+        }
+        function deleteRecord(data) {
+            var grid = this;
+            kvs.confirm("Kayıt silme onay", "Kayıdı silmek istediğinize emin misiniz?", function () {
+                kvs.callJx("/RenewalReminder/RenewalReminder_Delete", "body", { id: data.renewalReminderId }, function () {
+                    grid.load();
+                });
+            });
+        }
+    </script>
+}
+ *@

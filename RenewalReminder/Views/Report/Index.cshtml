@@ -1,0 +1,138 @@
+﻿@using RenewalReminder.Models;
+@model StudentPermits
+@{
+    ViewBag.Title = "Talebe Ne Kadar İzin Kullanmış";
+}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Öğrenci İzin Detayları</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-content"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-1 d-max-height">
+    <grid class="table table-lg" url="/Report/Report_Read">
+        <column for="Student.Id" title="@(Html.Raw("<i class=\"fas fa-check\"></i>"))" template="showPermitDetails"></column>
+        <column for="Student.Number" title="No" orderable="false" style="width:2rem"></column>
+        <column for="Student.FullName"></column>
+
+
+        <column for="TotalLeave" orderable="false" template="formatElapsedTime"></column>
+        <column for="StudentId" hidden></column>
+        <column for="ElapsedTime" hidden></column>
+        <column for="CheckInTime" hidden></column>
+        <column for="CheckOutTime" hidden></column>
+        <column for="PermitDetails" hidden></column>
+        <column for="Student" hidden></column>
+
+
+
+        <filters class="m-0 p-2" column-count="2">
+            <field for="Student.FullName" operant="CONTAINS" type="TEXT" lg-size="2" place-holder="Ara..."></field>
+
+            <field type="BUTTON" onclick="editRecord()" class="btn btn-sm btn-warning text-nowrap ml-3">
+                <i class="fas fa-plus-circle mr-1"></i> Yeni Kayıt
+            </field>
+        </filters>
+    </grid>
+</div>
+
+@section scripts{
+    <script>
+        function formatTimeInterval(start, end) {
+            var endDate;
+            var startDate;
+
+            if (!end || !start) {
+                startDate = "Girilmemiş"
+            } else {
+            var endDate = new Date(start);
+            var startDate = new Date(end);
+
+            var options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+
+            var startPart = startDate.toLocaleDateString(undefined, options);
+            var endPart = endDate.toLocaleDateString(undefined, options);
+            debugger;
+            return startPart + ' - ' + endPart;
+        }
+
+        }
+        function showPermitDetails(field, data, td) {
+            var value = kvs.value(data, field);
+
+            debugger;
+            var input = $("<input>", { type: "button", class: "btn btn-success", "data-record-id": data.student.id, value: "Detaya Git" });
+
+            input.on('click', function () {
+                var recordId = $(this).data('record-id');
+                $('#myModal').modal('show');
+
+                var modalContent = $('#modal-content');
+                modalContent.empty();
+
+                var modalTitle = $('<h5 class="modal-title">').text('Öğrenci Detayları - ' + data.student.fullName);
+                $('#myModal .modal-header').empty().append(modalTitle);
+
+                var table = $('<table class="table">');
+                table.append('<thead><tr><th>Çıkış Saati</th><th>Giriş Saati</th></tr></thead>');
+                var tbody = $('<tbody>');
+
+                data.permitDetails.forEach(function (permitDetail) {
+                    var formattedInterval = formatTimeInterval(permitDetail.checkInTime, permitDetail.checkOutTime);
+                    debugger;
+                    var parts = formattedInterval.split(' - ');
+
+                    if (parts.length === 2) {
+                        var startDate = parts[0];
+                        var endDate = parts[1];
+                        if (!endDate) {
+                            tbody.append('<tr><td>' + startDate + '</td><td>' + "-" + '</td></tr>');
+
+                        } else {
+                            tbody.append('<tr><td>' + startDate + '</td><td>' + endDate + '</td></tr>');
+
+                        }
+                    }
+                    table.append(tbody);
+                    modalContent.append(table);
+                });
+
+            });
+
+            return $("<span>").append(input);
+
+        }
+
+        function formatElapsedTime(field, data, td) {
+            var value = kvs.value(data, field);
+            var minutes = Math.floor(value);
+
+            if (minutes >= 60) {
+                var hours = Math.floor(minutes / 60);
+                if (hours >= 24) {
+                    return $("<span>", { class: "badge badge-danger", style: "font-size:100%", html: hours + " " + "saat" });
+                } else {
+                    return $("<span>", { class: "badge badge-warning", style: "font-size:100%", html: hours + " " + "saat" });
+
+                }
+            } else {
+                return $("<span>", { class: "badge badge-info", style: "font-size:100%", html: minutes + " " + "dakika" });
+            }
+        }
+
+
+    </script>
+}

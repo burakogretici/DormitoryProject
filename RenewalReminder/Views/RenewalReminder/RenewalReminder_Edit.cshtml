@@ -1,0 +1,153 @@
+﻿@* @using RenewalReminder.Domain.Enums;
+@model RenewalReminder.Domain.RenewalReminder
+@{
+    var idx = 0;
+    var today = DateTime.Now;
+
+    if (Model.Id > 0)
+    {
+        ViewBag.Title = Model.Title + " - Düzenleme";
+    }
+    else
+    {
+        ViewBag.Title = "Hatırlatıcı Oluşturma";
+    }
+}
+@if (Model == null)
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="alert alert-danger" role="alert">
+                @(Html.Raw(ViewData.ModelState.GetErrorMessage()))
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-8">
+                    <form id="frmEdit" action="/RenewalReminder/RenewalReminder_Save" method="post">
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="Title"></label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" asp-for="Title" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="Description"></label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" asp-for="Description" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="ReminderPeriod"></label>
+                            <div class="col-lg-9">
+                                <select class="form-control" asp-for="ReminderPeriod" asp-items="@(Html.GetEnumSelectList<ReminderPeriod>())" onchange="reminderPeriodChanged()"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="StartDate"></label>
+                            <div class="col-lg-9">
+                                @if (Model.Id > 0)
+                                {
+                                    <input type="text" class="form-control date-picker" asp-for="StartDate" />
+                                }
+                                else
+                                {
+                                    <input type="text" class="form-control date-picker" asp-for="StartDate" value="@today" />
+                                }
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3" asp-for="EndDate"></label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control date-picker" asp-for="EndDate" />
+                            </div>
+                        </div>
+                        <h6 class="mt-5 py-2 border-bottom">Yetkili Kullanıcı Ekle </h6>
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        @foreach (var item in Model.UserRenewalReminders)
+                                        {
+                                            <div>
+                                                <checkbox id="users_@(idx)__Deleted" name="users[@(idx)].Deleted" value="@(item.Id > 0)" label="@(item.User.Name + " " + item.User.Surname )" />
+                                                <input type="hidden" name="users[@(idx)].UserId" value="@(item.UserId)" />
+                                                <input type="hidden" name="users[@(idx)].RenewalReminderId" value="@(item.RenewalReminderId)" />
+                                            </div>
+                                            idx++;
+
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" asp-for="Id" />
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <button type="button" class="btn btn-secondary" onclick="history.back()"><i class="fas fa-arrow-circle-left"></i> Geri</button>
+                </div>
+                <div class="col-lg-4 text-right">
+                    <button type="button" class="btn btn-warning" onclick="saveRecord()"><i class="fas fa-save"></i> Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section scripts{
+    <js-validation form-selector="#frmEdit">
+        <rule name="Title" rules="requiredNonZero: true" />
+        <rule name="Description" rules="requiredNonZero: true" />
+        <rule name="ReminderPeriod" rules="requiredNonZero: true" />
+        <rule name="StartDate" rules="requiredNonZero: true" />
+        <rule name="EndDate" rules="requiredNonZero: false" />
+    </js-validation>
+    <script>
+        function saveRecord() {
+            var form = $("#frmEdit");
+            var id = $("#Id").val();
+            if (form.valid()) {
+                kvs.postJx(form.attr("action"), "body", form, function (result) {
+                    kvs.alert("success", "Başarılı", "İşlem başarılı", function () {
+                        if (id == "0") {
+                            if (history && history.replaceState) {
+                                $("#Id").val(result.data.id);
+                                history.replaceState({}, document.title, "/RenewalReminder/RenewalReminder_Edit/" + result.data.id);
+                            }
+                            else {
+                                kvs.gotoUrl("/RenewalReminder/RenewalReminder_Edit/" + result.data.id);
+                            }
+                        }
+                    });
+                    kvs.gotoUrl("/RenewalReminder/Index");
+                });
+            }
+        }
+        function reminderPeriodChanged() {
+            var value = $("#ReminderPeriod").val();
+            if ($("#ReminderPeriod").val() == "0") {
+                $(".hotel").addClass("d-none");
+                $(".hotel :input").val("0");
+                $(".metropol").removeClass("d-none");
+            }
+            else {
+                $(".metropol").addClass("d-none");
+                $(".metropol :input").val("0");
+                $(".hotel").removeClass("d-none");
+            }
+        }
+        $().ready(function () {
+            reminderPeriodChanged();
+
+            jQuery.validator.addMethod("requiredNonZero", function (value, element) {
+                return !kvs.isEmpty(value) && value != "0";
+            }, "Lütfen bir değer seçiniz.");
+        });</script>
+    }
+} *@

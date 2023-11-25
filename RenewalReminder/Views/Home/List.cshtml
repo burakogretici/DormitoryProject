@@ -1,0 +1,54 @@
+﻿@using RenewalReminder.Domain
+@model IEnumerable<MonthByRenewalReminderModel>
+@{
+    var date = ViewBag.Date;
+    var month = DateTime.Now;
+}
+@if (Model.Count() > 0 && Model != null)
+{
+    <table class="table">
+        <tr>
+            <th>
+                <p style="color: #4e73dfc7;"> <span class="badge badge-primary" style="font-size: x-large; margin-right: 8px; background-color: #4e73dfc7; border-radius: 100%;">@DateTime.Now.Day </span> @DateTime.Now.ToString("MMMM").ToUpper() @DateTime.Now.ToString("yyyy").ToUpper() @DateTime.Now.ToString("dddd").ToUpper() </p>
+            </th>
+        </tr>
+        <tbody id="a">
+            @foreach (var item in Model.ToList())
+            {
+                if (item.Key == month.Month)
+                {
+                <th>
+                    <p style="font-size: 12px;"> <span style="font-size:large;margin-right: 12px;font-weight: bolder; color:red"> @item.Value</span> </p>
+                </th>
+                }
+                else if (item.Key == month.AddMonths(-1).Month)
+                {
+                <th>
+                    <p style="font-size: 12px;"> <span style="font-size:large;margin-right: 12px;font-weight: bolder; color:orange"> @item.Value</span> </p>
+                </th>
+                }
+                else
+                {
+                <th>
+                    <p style="font-size: 12px;"> <span style="font-size:large;margin-right: 12px;font-weight: bolder;"> @item.Value</span> </p>
+                </th>
+                }
+
+              @*   @foreach (var item2 in item.RenewalReminders)
+                {
+                <tr>
+                    <td style="padding-right:5cm; color: black;font-style: italic;font-weight: 600;">
+                            @item2.Title
+                    </td>
+                </tr>
+                } *@
+
+            }
+        </tbody>
+    </table>
+
+}
+else
+{
+    <span> Yenileme Hatırlarıcısı Bulunamadı... </span>
+}

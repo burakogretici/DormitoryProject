@@ -1,0 +1,112 @@
+﻿@using RenewalReminder.Domain;
+@using RenewalReminder.Domain.Enums;
+@model Guest
+@{
+
+    ViewBag.Title = "Misafir Oluşturma";
+
+}
+@if (Model == null)
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="alert alert-danger" role="alert">
+                @(Html.Raw(ViewData.ModelState.GetErrorMessage()))
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-8">
+                    <form id="frmEdit" action="/Guest/Guest_Save" method="post">
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="FullName"></label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" asp-for="FullName" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="WhoCome"></label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" asp-for="WhoCome" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="FromWhere"></label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" asp-for="FromWhere" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="WhyCome"></label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" asp-for="WhyCome" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="GuestType"></label>
+                            <div class="col-lg-9">
+                                <select class="form-control" asp-for="GuestType" asp-items="@(Html.GetEnumSelectList<GuestType>())"></select>
+                            </div>
+                        </div>
+
+                        <input type="hidden" asp-for="Id" />
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <button type="button" class="btn btn-secondary" onclick="history.back()"><i class="fas fa-arrow-circle-left"></i> Geri</button>
+                </div>
+                <div class="col-lg-4 text-right">
+                    <button type="button" class="btn btn-warning" onclick="saveRecord()"><i class="fas fa-save"></i> Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section scripts{
+
+    <js-validation form-selector="#frmEdit">
+        <rule name="FullName" rules="requiredNonZero: true" />
+        <rule name="WhyCome" rules="requiredNonZero: true" />
+        <rule name="WhoCome" rules="requiredNonZero: true" />
+    </js-validation>
+
+    <script>
+        function saveRecord() {
+            var form = $("#frmEdit");
+            var id = $("#Id").val();
+            if (form.valid()) {
+                kvs.postJx(form.attr("action"), "body", form, function (result) {
+                    kvs.alert("success", "Başarılı", "İşlem başarılı", function () {
+                        if (id == "0") {
+                            if (history && history.replaceState) {
+                                $("#Id").val(result.data.id);
+                                history.replaceState({}, document.title, "/Guest/Guest_Edit/" + result.data.id);
+                            }
+                            else {
+                                kvs.gotoUrl("/Guest/Guest_Edit/" + result.data.id);
+                            }
+                        }
+                    });
+                    kvs.gotoUrl("/Guest/Index");
+                });
+            }
+        }
+
+        $().ready(function () {
+            jQuery.validator.addMethod("requiredNonZero", function (value, element) {
+                return !kvs.isEmpty(value) && value != "0";
+            }, "Lütfen bir değer seçiniz.");
+        });
+    </script>
+    }
+}

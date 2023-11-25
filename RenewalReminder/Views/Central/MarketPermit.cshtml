@@ -1,0 +1,126 @@
+﻿@using RenewalReminder.Domain;
+@using RenewalRemindr.Models;
+@model MarketPermit
+@{
+    ViewBag.Title = "Çarşı İzni Yoklama";
+}
+<div class="card" style="margin-bottom:5px;">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-8">
+                <form id="frmEdit" action="/Central/MarketPermit_Save" method="post">
+                
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-2 required mt-1 pl-4" asp-for="Student.FullName"></label>
+                        <div class="col-lg-4 mt-1">
+
+                            @Html.DropDownList("StudentId", ViewBag.Students, "Seçiniz...", new { @class = "form-control" })
+
+                        </div>
+                    </div>
+
+
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="CheckInTime" />
+                    <input type="hidden" asp-for="Student" />
+
+                    <input type="hidden" asp-for="CheckOutTime" />
+
+                </form>
+            </div>
+            <div class="col-lg-4 text-right">
+                <button type="button" class="btn btn-warning" onclick="saveRecord()"><i class="fas fa-save"></i> Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card mb-1 d-max-height">
+
+    <grid class="table table-lg" url="/Central/MarketPermit_Read">
+        <column for="Id" template="edit" orderable="false" title="@(Html.Raw("<i class=\"fas fa-check\"></i>"))" style="width:2rem"></column>
+        <column for="Student.Number" title="Talebe No"></column>
+        <column for="Student.FullName" title="Talebe Adı"></column>
+        <column for="Student.Phone" title="Telefon Numarası"></column>
+
+        <column for="CheckOutTime" template="formatDate"></column>
+        <column for="CheckInTime" template="formatDate"></column>
+
+        <filters class="m-0 p-2" column-count="4">
+            <field for="Student.FullName" type="TEXT" place-holder="Ara..."></field>
+            <field for="CreateDate" place-holder="Tarihe Göre Ara..." type="DATE" operant="GREATER_THANEQUAL"> </field>
+
+            <field type="SELECT" for="Student" items="ViewBag.Students"> </field>
+       @*      <field type="BUTTON" onclick="editRecord()" class="btn btn-sm btn-warning text-nowrap ml-3">
+                <i class="fas fa-plus-circle mr-1"></i> Yeni Kayıt
+            </field> *@
+        </filters>
+    </grid>
+
+</div>
+
+<js-validation form-selector="#frmEdit">
+    <rule name="FullName" rules="requiredNonZero: true" />
+</js-validation>
+
+@section scripts{
+    <script>
+        function saveRecord() {
+            var form = $("#frmEdit");
+            var id = 0;
+            var grid = kvs.grid(".grid");
+
+
+            debugger;
+
+            if (form.valid()) {
+                kvs.postJx(form.attr("action"), "body", form, function (result) {
+                    grid.load();
+                });
+            }
+        }
+        function edit(field, data, td) {
+            var checkbox = $("<input>", { type: "checkbox", class: "grid-checkbox", "data-record-id": data.id });
+
+            var grid = kvs.grid(".grid");
+
+            if (data.checkInTime) {
+                checkbox.prop("checked", true);
+            }
+
+            checkbox.change(function () {
+                debugger;
+                var id = $(this).attr("data-record-id");
+                kvs.callJx("/Central/MarketPermit_Save", "body", { Id: id }, function () {
+                    grid.load();
+                });
+
+            });
+
+            return $("<span>").append(checkbox);
+        }
+
+        function formatDate(field, data, td) {
+            var value = kvs.value(data, field);
+            if (value) {
+                var time = value.substring(11, 16)
+                var result = value.substring(8, 10) + '/' + value.substring(5, 7) + '/' + value.substring(0, 4) + " " + time;
+                return result;
+            } else {
+                return $("<span>", { style: "font-size:100%", html: "-" });
+            }
+        }
+
+
+        function editRecord(data) {
+            var grid = this;
+            if (!data) {
+                grid = kvs.grid(".grid");
+            }
+            kvs.gotoUrl("/Central/MarketPermit_Edit/" + (data ? data.id : 0));
+        }
+
+
+    </script>
+        }

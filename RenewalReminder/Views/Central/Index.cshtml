@@ -1,0 +1,259 @@
+﻿@using RenewalReminder.Domain;
+@using RenewalReminder.Domain.Enums;
+@using RenewalRemindr.Models;
+@model Central
+@{
+    ViewBag.Title = "Giriş-Çıkış Kaydı";
+    var todayIsSunday = DateTime.Today.DayOfWeek == DayOfWeek.Sunday;
+    var user = ViewContext.HttpContext.Items["User"] as RenewalReminder.Domain.User;
+
+}
+<div class="card" style="margin-bottom:5px;">
+    <div class="card-body">
+        <form id="frmEdit" action="/Central/Central_Save" method="post">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required" asp-for="Student.FullName"></label>
+                        <div>
+                            @Html.DropDownList("StudentId", ViewBag.Students, "Seçiniz...", new { @class = "form-control sm" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required" asp-for="Staff"></label>
+                        <div>
+                            <select class="form-control sm" asp-for="Staff" asp-items="@(Html.GetEnumSelectList<Staff>())"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required" asp-for="ToWhere"></label>
+                        <div>
+                            <select class="form-control sm" asp-for="ToWhere" asp-items="@(Html.GetEnumSelectList<ToWhere>())"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col-md-12 text-right mt-2">
+                <button type="button" class="btn btn-warning" onclick="saveRecord()"><i class="fas fa-save"></i> Kaydet</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="card mb-1 d-max-height">
+    <grid class="table table-lg" url="/Central/Central_Read">
+        @if (user.UserType == RenewalReminder.Domain.Enums.UserType.ADMIN)
+        {
+            <column for="Id" template="kvs.grdEdit" orderable="false" title="@(Html.Raw("<i class=\"fas fa-check\"></i>"))" style="width:2rem"></column>
+            <column for="Id" template="editIn" orderable="false" title="Geldi mi?" style="width:2rem"></column>
+        }
+        else
+        {
+            <column for="Id" template="editIn" orderable="false" title="Geldi mi?" style="width:2rem"></column>
+
+        }
+        <column for="Student.FullName" title="Talebe Adı"></column>
+        <column for="Staff" orderable="false" template="formatStaff"></column>
+        <column for="ToWhere" orderable="false" template="formatToWhere"></column>
+        <column for="CheckOutTime" template="formatDate"></column>
+        <column for="CheckInTime" template="formatDate"></column>
+        <column for="ElapsedTime" template="formatElapsedTime"></column>
+        <column for="IsExcused" hidden></column>
+
+
+        <filters class="m-2 p-2" column-count="3">
+            <field for="Student.FullName" type="TEXT" place-holder="Ara..."></field>
+
+            <field for="CreateDate" place-holder="Tarihe Göre Ara..." type="DATE" operant="GREATER_THANEQUAL"> </field>
+
+           @*  <field type="BUTTON" onclick="editRecord()" class="btn btn-sm btn-warning text-nowrap ml-3">
+                <i class="fas fa-plus-circle mr-1"></i> Yeni Kayıt
+            </field> *@
+            @*     @if (todayIsSunday)
+            { *@
+            <field type="BUTTON" onclick="pageChange()" class="btn btn-sm btn-success text-nowrap ml-3">
+                <i class="fas fa-plus-circle mr-1"></i> Çarşı İzni
+            </field>
+            @* } *@
+
+        </filters>
+    </grid>
+</div>
+<js-validation form-selector="#frmEdit">
+    <rule name="FullName" rules="requiredNonZero: true" />
+    <rule name="Staff" rules="requiredNonZero: true" />
+    <rule name="ToWhere" rules="requiredNonZero: true" />
+</js-validation>
+@section scripts{
+    <script>
+        function saveRecord() {
+            var form = $("#frmEdit");
+            var id = $("#Id").val();
+            var grid = kvs.grid(".grid");
+            
+            if (form.valid()) {
+                kvs.postJx(form.attr("action"), "body", form, function (result) {
+                    grid.load();
+                });
+            }
+        }
+        function editRecord(data) {
+            var grid = this;
+            if (!data) {
+                grid = kvs.grid(".grid");
+            }
+            kvs.gotoUrl("/Central/Central_Edit/" + (data ? data.id : 0));
+        }
+
+        function deleteRecord(data) {
+            var grid = this;
+            kvs.confirm("Kayıt silme onay", "Kayıdı silmek istediğinize emin misiniz?", function () {
+                kvs.callJx("/Central/Central_Delete", "body", { id: data.id }, function () {
+                    grid.load();
+                });
+            });
+        }
+
+        function editIn(field, data, td) {
+            var grid = kvs.grid(".grid");
+
+            var checkbox = $("<input>", { type: "checkbox", class: "grid-checkbox", "data-record-id": data.id });
+
+            if (data.checkInTime) {
+                checkbox.prop("checked", true);
+            }
+
+            checkbox.change(function () {
+                debugger;
+                var talebeAdi = data.student.fullName;
+                var kimdenIzinAlindi = data.staff;
+                var nereyeGidiyor = data.toWhere;
+                var cikisSaati = data.checkOutTime;
+                var girisSaati = data.checkInTime;
+                var gecenSure = data.elapsedTime;
+                var mazeretlimi = data.isExcused
+
+                var id = $(this).attr("data-record-id");
+                var isCheckboxChecked = $(this).prop("checked");
+
+                debugger;
+                // Bugünün tarihini al
+                var todayDate = isCheckboxChecked ? new Date().toLocaleString('tr-TR') : null;
+                kvs.callJx("/Central/Central_Save", "body", {
+                    Id: id,
+                    StudentFullName: talebeAdi,
+                    Staff: kimdenIzinAlindi,
+                    ToWhere: nereyeGidiyor,
+                    CheckOutTime: cikisSaati,
+                    CheckInTime: todayDate,
+                    ElapsedTime: gecenSure,
+                    IsExcused: mazeretlimi
+                }, function () {
+                    grid.load();
+                });
+
+            });
+
+            return $("<span>").append(checkbox);
+        }
+
+        function formatElapsedTime(field, data, td) {
+            var value = kvs.value(data, field);
+            var minutes = Math.floor(value);
+
+            if (minutes >= 120) {
+                var hours = Math.floor(minutes / 60);
+                if (hours >= 4) {
+                    return $("<span>", { class: "badge badge-danger", style: "font-size:100%", html: hours + " " + "saat" });
+                } else {
+                    return $("<span>", { class: "badge badge-warning", style: "font-size:100%", html: hours + " " + "saat" });
+
+                }
+            } else {
+                return $("<span>", { class: "badge badge-success", style: "font-size:100%", html: minutes + " " + "dakika" });
+            }
+        }
+
+        function formatDate(field, data, td) {
+            var value = kvs.value(data, field);
+            if (value) {
+                var time = value.substring(11, 16)
+                var result = value.substring(8, 10) + '/' + value.substring(5, 7) + '/' + value.substring(0, 4) + " " + time;
+                return result;
+            } else {
+                return $("<span>", { style: "font-size:100%", html: "-" });
+            }
+        }
+
+        function pageChange(data) {
+            var grid = this;
+            if (!data) {
+                grid = kvs.grid(".grid");
+            }
+            kvs.gotoUrl("/Central/MarketPermit");
+        }
+
+        function editRecord(data) {
+            var grid = this;
+            if (!data) {
+                grid = kvs.grid(".grid");
+            }
+            kvs.gotoUrl("/Central/Central_Edit/" + (data ? data.id : 0));
+        }
+        function formatStaff(field, data, td) {
+            var value = kvs.value(data, field);
+            switch (value) {
+                case 1:
+                    return $("<span>", { html: "Hasan Özer" });
+                    break;
+                case 2:
+                    return $("<span>", { html: "Süleyman Yüksel" });
+                    break;
+                case 3:
+                    return $("<span>", { html: "Hamza Türkmen" });
+                    break;
+                case 4:
+                    return $("<span>", { html: "Enes Baykara" });
+                    break;
+                case 5:
+                    return $("<span>", { html: "Sefa Bayram" });
+                    break;
+                case 6:
+                    return $("<span>", { html: "Ahmet Kemal Aksoy" });
+                    break;
+
+                default:
+
+            }
+        }
+        function formatToWhere(field, data, td) {
+            var value = kvs.value(data, field);
+            switch (value) {
+                case 1:
+                    return $("<span>", { html: "Okul" });
+                    break;
+                case 2:
+                    return $("<span>", { html: "Hastane" });
+                    break;
+                case 3:
+                    return $("<span>", { html: "Diğer" });
+                    break;
+                default:
+
+
+            }
+
+        }
+
+    </script>
+}

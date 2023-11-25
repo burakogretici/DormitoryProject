@@ -1,0 +1,111 @@
+﻿@using RenewalReminder.Domain;
+@using RenewalReminder.Domain.Enums;
+@model Central
+@{
+    ViewBag.Title = "İzin Girişi";
+    var user = ViewContext.HttpContext.Items["User"] as RenewalReminder.Domain.User;
+
+
+}
+@if (Model == null)
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="alert alert-danger" role="alert">
+                @(Html.Raw(ViewData.ModelState.GetErrorMessage()))
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-8">
+                    <form id="frmEdit" action="/Central/Central_Save" method="post">
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="Student.FullName"></label>
+                            <div class="col-lg-9">
+                                @Html.DropDownList("StudentId", ViewBag.Students, "Seçiniz...", new { @class = "form-control" , @value = Model.StudentId })
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="Staff"></label>
+                            <div class="col-lg-9">
+                                <select class="form-control" asp-for="Staff" asp-items="@(Html.GetEnumSelectList<Staff>())"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-lg-3 required" asp-for="ToWhere"></label>
+                            <div class="col-lg-9">
+                                <select class="form-control" asp-for="ToWhere" asp-items="@(Html.GetEnumSelectList<ToWhere>())"></select>
+                            </div>
+                        </div>
+                        @if (user.UserType == UserType.ADMIN)
+                        {
+                            <div class="form-group row">
+                                <label class="col-form-label col-lg-3">Mazeretli mi?</label>
+                                <div class="col-lg-9">
+                                    <checkbox asp-for="IsExcused" show-label="false" />
+                                </div>
+                            </div>
+                        }
+                   
+
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="CheckInTime" />
+                        <input type="hidden" asp-for="CheckOutTime" />
+
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <button type="button" class="btn btn-secondary" onclick="history.back()"><i class="fas fa-arrow-circle-left"></i> Geri</button>
+                </div>
+                <div class="col-lg-4 text-right">
+                    <button type="button" class="btn btn-warning" onclick="saveRecord()"><i class="fas fa-save"></i> Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section scripts{
+    <js-validation form-selector="#frmEdit">
+
+    </js-validation>
+
+    <script>
+        function saveRecord() {
+            var form = $("#frmEdit");
+            var id = $("#Id").val();
+            debugger;
+
+            if (form.valid()) {
+                kvs.postJx(form.attr("action"), "body", form, function (result) {
+                    kvs.alert("success", "Başarılı", "İşlem başarılı", function () {
+                        if (id == "0") {
+                            if (history && history.replaceState) {
+                                $("#Id").val(result.data.id);
+                                history.replaceState({}, document.title, "/Central/Central_Edit/" + result.data.id);
+                            }
+                            else {
+                                kvs.gotoUrl("/Central/Central_Edit/" + result.data.id);
+                            }
+                        }
+                    });
+                    kvs.gotoUrl("/Central/Index");
+                });
+            }
+        }
+                
+        $().ready(function () {
+            ; jQuery.validator.addMethod("requiredNonZero", function (value, element) {
+                return !kvs.isEmpty(value) && value != "0";
+            }, "Lütfen bir değer seçiniz.");
+        });
+    </script>
+
+    }
+}

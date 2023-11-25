@@ -1,0 +1,155 @@
+﻿@using RenewalReminder.Domain;
+@using RenewalReminder.Domain.Enums;
+@model Guest
+@{
+    ViewBag.Title = "Misafirler";
+    string[] labels = { "FullName", "WhoCome", "FromWhere", "WhyCome" };
+
+}
+<div class="card" style="margin-bottom:5px;">
+    <div class="card-body">
+        <form id="frmEdit" action="/Guest/Guest_Save" method="post">
+
+            <div class="card-body">
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="required" asp-for="FullName"></label>
+                            <div>
+                                <input type="text" class="form-control" asp-for="FullName" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="required" asp-for="WhoCome"></label>
+                            <div>
+                                <input type="text" class="form-control" asp-for="WhoCome" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="required" asp-for="FromWhere"></label>
+                            <div>
+                                <input type="text" class="form-control" asp-for="FromWhere" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- İkinci Grup -->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="required" asp-for="WhyCome"></label>
+                            <div>
+                                <input type="text" class="form-control" asp-for="WhyCome" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="required" asp-for="GuestType"></label>
+                            <div>
+                                <select class="form-control sm" asp-for="GuestType" asp-items="@(Html.GetEnumSelectList<GuestType>())"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    @* <div class="col-md-4">
+                    <div class="form-group">
+                    <label class="required" asp-for="YourSixthProperty"></label>
+                    <div>
+                    <input type="text" class="form-control" asp-for="YourSixthProperty" />
+                    </div>
+                    </div>
+                    </div> *@
+                </div>
+
+            </div>
+
+        </form>
+        <div class="row">
+            <div class="col-md-12 text-right mt-2">
+                <button type="button" class="btn btn-warning" onclick="saveRecord()"><i class="fas fa-save"></i> Kaydet</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="card mb-1 d-max-height">
+    <grid class="table table-lg" url="/Guest/Guest_Read">
+        <column for="Id" orderable="false" title="@(Html.Raw("<i class=\"fas fa-check\"></i>"))" style="width:2rem"></column>
+        <column for="FullName" orderable="false"></column>
+        <column for="WhyCome" orderable="false"></column>
+        <column for="FromWhere" orderable="false"></column>
+        <column for="WhoCome" orderable="false"></column>
+        <column for="GuestType" template="formatGuestType" orderable="false"></column>
+
+        <filters class="m-0 p-2" column-count="4">
+            <field for="FullName" type="TEXT" lg-size="2" place-holder="Ara..."></field>
+            <field for="CreateDate" place-holder="Tarihe Göre Ara..." type="DATE" operant="GREATER_THANEQUAL"> </field>
+@* 
+            <field type="BUTTON" onclick="editRecord()" class="btn btn-sm btn-warning text-nowrap ml-3">
+                <i class="fas fa-plus-circle mr-1"></i> Yeni Kayıt
+            </field> *@
+        </filters>
+    </grid>
+</div>
+<js-validation form-selector="#frmEdit">
+    <rule name="FullName" rules="requiredNonZero: true" />
+    <rule name="WhyCome" rules="requiredNonZero: true" />
+    <rule name="WhoCome" rules="requiredNonZero: true" />
+    <rule name="GuestType" rules="requiredNonZero: true" />
+
+</js-validation>
+
+@section scripts{
+    <script>
+        function saveRecord() {
+            var form = $("#frmEdit");
+            var id = $("#Id").val();
+            var grid = kvs.grid(".grid");
+
+
+            debugger;
+
+            if (form.valid()) {
+                kvs.postJx(form.attr("action"), "body", form, function (result) {
+                    grid.load();
+                });
+            }
+        }
+        function editRecord(data) {
+            var grid = this;
+            if (!data) {
+                grid = kvs.grid(".grid");
+            }
+            kvs.gotoUrl("/Guest/Guest_Edit/" + (data ? data.id : 0));
+        }
+        function formatGuestType(field, data, td) {
+            var value = kvs.value(data, field);
+            switch (value) {
+                case 1:
+                    return $("<span>", { html: "Hocaefendi" });
+                    break;
+                case 2:
+                    return $("<span>", { html: "Talebe" });
+                    break;
+                case 3:
+                    return $("<span>", { html: "Diğer" });
+                    break;
+                default:
+
+
+            }
+
+        }
+    </script>
+}
