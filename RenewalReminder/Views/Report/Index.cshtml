@@ -1,4 +1,5 @@
-﻿@using KvsProject.Models;
+﻿@using KvsProject.Domain.Enums;
+@using KvsProject.Models;
 @model StudentPermits
 @{
     ViewBag.Title = "Talebe Ne Kadar İzin Kullanmış";
@@ -36,11 +37,15 @@
         <column for="CheckOutTime" hidden></column>
         <column for="PermitDetails" hidden></column>
         <column for="Student" hidden></column>
+@*         <column for="Student.Centrals" hidden></column>
+ *@
 
 
 
-        <filters class="m-0 p-2" column-count="2">
-            <field for="Student.FullName" operant="CONTAINS" type="TEXT" lg-size="2" place-holder="Ara..."></field>
+        <filters class="m-0 p-2" >
+            <field for="Student.FullName" operant="CONTAINS" type="TEXT" lg-size="1" place-holder="Ara..."></field>
+            <field for="IsExcused" operant="EQUAL" type="SELECT" place-holder="Mazeretli mi..." items="@(Html.GetEnumSelectList<Status>())"></field>
+
 
             <field type="BUTTON" onclick="editRecord()" class="btn btn-sm btn-warning text-nowrap ml-3">
                 <i class="fas fa-plus-circle mr-1"></i> Yeni Kayıt

@@ -18,6 +18,10 @@ namespace KvsProject.Models
 
         [Display(Name = "Toplam Süre")]
         public int TotalLeave { get; set; }
+
+        [Display(Name = "Mazeretli mi?")]
+        public bool? IsExcused { get; set; }
+
         public int ElapsedTime { get; set; }
         public int StudentNumber { get; set; }
 

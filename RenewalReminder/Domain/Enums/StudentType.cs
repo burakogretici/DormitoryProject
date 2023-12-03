@@ -16,5 +16,13 @@ namespace KvsProject.Domain.Enums
         [Display(Name = "Çaycı")]
         Teaci
     }
+    public enum Status
+    {
+        
+        [Display(Name = "Evet")]
+        Yes,
+        [Display(Name = "Hayır")]
+        No
+    }
 
 }

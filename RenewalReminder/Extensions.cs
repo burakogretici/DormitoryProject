@@ -15,6 +15,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using System.ComponentModel.DataAnnotations;
 
 namespace KvsProject
 
@@ -922,6 +923,14 @@ namespace KvsProject
             }
         }
         #endregion
+
+        public static string GetDisplayName(this Enum value)
+        {
+            var field = value.GetType().GetField(value.ToString());
+            var displayAttribute = field.GetCustomAttribute<DisplayAttribute>();
+
+            return displayAttribute?.Name ?? value.ToString();
+        }
 
         public static IEnumerable<dynamic> CastAsDynamic<T>(this IEnumerable<T> data, List<string> fields)
         {

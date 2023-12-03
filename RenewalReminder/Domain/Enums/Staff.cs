@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace KvsProject.Domain.Enums
 {
@@ -6,17 +7,19 @@ namespace KvsProject.Domain.Enums
     {
         [Display(Name = "Seçiniz")]
         NONE = 0,
-        [Display(Name = "Hasan Ö.")]
+        [Display(Name = "Hasan Özer")]
         Staff1,
-        [Display(Name = "Süleyman Y.")]
+        [Display(Name = "Süleyman Yüksel")]
         Staff2,
-        [Display(Name = "Hamza T.")]
+        [Display(Name = "Hamza Türkmen")]
         Staff3,
-        [Display(Name = "Enes B.")]
+        [Display(Name = "Enes Baykara")]
         Staff4,
-        [Display(Name = "Sefa B.")]
+        [Display(Name = "Sefa Bayram")]
         Staff5,
-        [Display(Name = "Ahmet Kemal A.")]
+        [Display(Name = "Ahmet Kemal Aksoy")]
         Staff6,
     }
+
+   
 }

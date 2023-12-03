@@ -1,6 +1,5 @@
 ﻿using KvsProject.Data;
 using KvsProject.Domain;
-using KvsProject.Domain.Enums;
 using KvsProject.Services.Abstract;
 using KvsProjectr.Domain.Exceptions;
 
@@ -141,7 +140,8 @@ namespace KvsProject.Services.Concrete
                     {
                         return new Result<MarketPermit>(validationResult);
                     }
-                    oldEntity = await _reporsitoryMarketPermit.Get(a => a.StudentId == entity.StudentId && DateTime.Now.Date == entity.CreateDate.Date);
+                    oldEntity = await _reporsitoryMarketPermit.Get(a => a.StudentId == entity.StudentId && a.CreateDate.Date == DateTime.Now.Date);
+                   
                     if (oldEntity != null)
                     {
                         throw new BusException("Bu kişi daha önce eklendi, tekrar ekleyemezsiniz!");

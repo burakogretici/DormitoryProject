@@ -1,11 +1,11 @@
 ﻿@{
-    ViewData["Title"] = "Anasayfa";
+    ViewData["Title"] = "Geri Dönüş Yapamayanlar";
 }
 
 <div id="list">
 </div>
 
-<div> <p> <b id="tst"></b> tarihine kadar ki etkinlikler gösteriliyor. <a href="#" id="more"> Daha fazlasını ara </a></p>  </div>
+@* <div> <p> <b id="tst"></b> tarihine kadar ki etkinlikler gösteriliyor. <a href="#" id="more"> Daha fazlasını ara </a></p>  </div> *@
 @section scripts{
 
     <script>
@@ -24,14 +24,14 @@
 
         $("#tst").html(`${day}/${month}/${year + 1}`);
 
-        $("#more").click(function () {
-            me += 1;
+        // $("#more").click(function () {
+        //     me += 1;
 
-            $("#tst").html(`${day}/${month}/${year + me}`);
-            $("#list").load("Home/List", { i: me });
+        //     $("#tst").html(`${day}/${month}/${year + me}`);
+        //     $("#list").load("Home/List", { i: me });
 
 
-        });
+        // });
 
     </script>
 }

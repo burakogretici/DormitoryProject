@@ -19,12 +19,6 @@ namespace KvsProject.Domain
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(ValidationResource))]
         public ToWhere ToWhere { get; set; }
 
-        //[Display(Name = "Çıkış Saati")]
-        //public DateTime? CheckOutTime { get; set; }
-
-        //[Display(Name = "Giriş Saati")]
-        ////[Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(ValidationResource))]
-        //public DateTime? CheckInTime { get; set; }
 
         [Display(Name = "Geçen Süre")]
         public int? ElapsedTime { get; set; }

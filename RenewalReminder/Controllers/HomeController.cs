@@ -6,23 +6,24 @@ using Microsoft.AspNetCore.Authorization;
 using static System.Net.Mime.MediaTypeNames;
 using KvsProject.Domain;
 using System.Diagnostics.Metrics;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace KvsProject.Controllers;
 
 public class HomeController : Controller
 {
     private readonly IAuthService _authService;
-    //private readonly IKvsProjectService _KvsProjectService;
-
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IUserAccessor _userAccessor;
+    private readonly ICentralService _centralService;
 
-    public HomeController(IAuthService authService, IWebHostEnvironment webHostEnvironment, IUserAccessor userAccessor = null)
+
+    public HomeController(IAuthService authService, IWebHostEnvironment webHostEnvironment, IUserAccessor userAccessor = null, ICentralService centralService = null)
     {
         _authService = authService;
-        //_KvsProjectService = KvsProjectService;
         _webHostEnvironment = webHostEnvironment;
         _userAccessor = userAccessor;
+        _centralService = centralService;
     }
 
     public async Task<IActionResult> Index()
@@ -33,22 +34,15 @@ public class HomeController : Controller
     public async Task<IActionResult> List(int i = 1)
     {
         //var date = DateTime.Now.AddYears(i);
-        //ViewBag.Date = date;
+        ViewBag.Date = DateTime.Now;
+        DateTime todayStart = DateTime.Today;
+        DateTime todayEnd = todayStart.AddDays(1).AddTicks(-1);
 
-        //var userRenewals = await _KvsProjectService.Query<UserKvsProject>(x => x.Deleted != true && x.UserId == _userAccessor.User.Id && (x.KvsProject.EndDate < date || x.KvsProject.EndDate == null), "KvsProject");
+        var getQuery = _centralService.NewQuery<Central>(x => x.CreateDate >= todayStart && x.CreateDate <= todayEnd && x.CheckInTime == null);
+        var result = await _centralService.Query<Central>(getQuery, "Student");
+        //var central = await _centralService.Query<Central>(x => x.CreateDate >= todayStart && x.CreateDate <= todayEnd && x.CheckInTime == null);
 
-        //var renewals = new List<MonthByKvsProjectModel>();
-        //if (userRenewals.Data != null && userRenewals.Data.Count() > 1)
-        //{
-        //    renewals = userRenewals.Data.GroupBy(a => a.KvsProject.StartDate.Month).Select(a => new MonthByKvsProjectModel
-        //    {
-        //        Key= a.Key,
-        //        Value = Month(a.Key),
-        //        KvsProjects = a.Select(a => a.KvsProject).OrderBy(a=>a.StartDate).ToList(),
-        //    }).OrderBy(x=>x.Key).ToList();
-        //}
-
-        return PartialView();
+        return PartialView(result.Data);
     }
 
 
@@ -58,7 +52,18 @@ public class HomeController : Controller
         ViewBag.ReturnUrl = returnUrl;
         return View();
     }
+    //var userRenewals = await _KvsProjectService.Query<UserKvsProject>(x => x.Deleted != true && x.UserId == _userAccessor.User.Id && (x.KvsProject.EndDate < date || x.KvsProject.EndDate == null), "KvsProject");
 
+    //var renewals = new List<MonthByKvsProjectModel>();
+    //if (userRenewals.Data != null && userRenewals.Data.Count() > 1)
+    //{
+    //    renewals = userRenewals.Data.GroupBy(a => a.KvsProject.StartDate.Month).Select(a => new MonthByKvsProjectModel
+    //    {
+    //        Key= a.Key,
+    //        Value = Month(a.Key),
+    //        KvsProjects = a.Select(a => a.KvsProject).OrderBy(a=>a.StartDate).ToList(),
+    //    }).OrderBy(x=>x.Key).ToList();
+    //}
     [HttpPost]
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
@@ -140,6 +145,6 @@ public class HomeController : Controller
     //            return "";
 
     //    }
-    }
+}
 //}
 
