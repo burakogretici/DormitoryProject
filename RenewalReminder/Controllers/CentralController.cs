@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using KvsProject.Domain;
 using KvsProject.Services.Abstract;
 using RenewalRemindr.Models;
+using KvsProject.Services.Concrete;
 
 namespace KvsProject.Controllers
 {
@@ -20,16 +21,10 @@ namespace KvsProject.Controllers
 
         public IActionResult Index()
         {
-            var studentQuery = _studentService.NewQuery<Student>(a => !a.Deleted);
-            var students = _studentService.Query(studentQuery, a => new Student()
-            {
-                Id = a.Id,
-                Name = a.Name,
-                Surname = a.Surname,
-                FullName = a.FullName,
-            });
+            var students = _studentService.Query<Student>(a => !a.Deleted);
+            var data = students.Result.Data.OrderBy(x => x.Number);
 
-            ViewBag.Students = new SelectList(students.Result.Data, "Id", "FullName");
+            ViewBag.Students = new SelectList(data, "Id", "Number");
             return View();
         }
         public async Task<IActionResult> Central_Read(GridRequest request)
@@ -65,33 +60,16 @@ namespace KvsProject.Controllers
 
         public IActionResult MarketPermit()
         {
-            var studentQuery = _studentService.NewQuery<Student>(a => !a.Deleted);
-            var students =  _studentService.Query(studentQuery, a => new Student()
-            {
-                Id = a.Id,
-                Name = a.Name,
-                Surname = a.Surname,
-                FullName = a.FullName,
-            });
 
-            ViewBag.Students = new SelectList(students.Result.Data, "Id", "FullName");
+            var students = _studentService.Query<Student>(a => !a.Deleted);
+            var data = students.Result.Data.OrderBy(x => x.Number);
+
+            ViewBag.Students = new SelectList(data, "Id", "Number");
             return View();
         }
         public async Task<IActionResult> MarketPermit_Read(GridRequest request)
         {
             this.StoreRequest(request);
-
-            var studentQuery = _studentService.NewQuery<Student>(a => !a.Deleted);
-            var students = await _studentService.Query(studentQuery, a => new Student()
-            {
-                Id = a.Id,
-                Name = a.Name,
-                Surname = a.Surname,
-                FullName = a.FullName,
-                Number  = a.Number,
-            });
-
-            ViewBag.Students = new SelectList(students.Data, "Id", "FullName");
 
             DateTime todayStart = DateTime.Today;
             DateTime todayEnd = todayStart.AddDays(1).AddTicks(-1);
@@ -115,9 +93,7 @@ namespace KvsProject.Controllers
                 query.Filters.Add(x => x.CreateDate >= todayStart && x.CreateDate <= todayEnd);
 
             }
-            var result = await _centralService.Query(query);
-
-
+        
             return (await _centralService.Query(query)).ToGridResult(request);
         }
 
@@ -229,13 +205,17 @@ namespace KvsProject.Controllers
             //    }
             //}
 
-
             var result = await _centralService.SaveMarketPermit(marketPermit);
             if (result.HasError)
             {
                 return result.ToJson();
             }
             return this.SuccesJson(new { result.Data.Id });
+        }
+
+        public async Task<IActionResult> Central_Delete(int id)
+        {
+            return (await _centralService.DeleteCentral(id)).ToJson();
         }
 
     }

@@ -26,11 +26,8 @@ namespace KvsProject.Domain
 
         [Display(Name = "Telefon No")]
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(ValidationResource))]
-        [MaxLength(11, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(ValidationResource))]
+        [MaxLength(15, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(ValidationResource))]
         public string Phone { get; set; }
-
-        //[Display(Name = "Talebe Görevi")]
-        //public StudentType? StudentType { get; set; }
 
         public List<Central>? Centrals { get; set; }
 

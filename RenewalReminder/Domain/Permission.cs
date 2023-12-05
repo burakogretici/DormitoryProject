@@ -13,7 +13,6 @@ namespace KvsProject.Domain
         public DateTime? CheckOutTime { get; set; }
 
         [Display(Name = "Giriş Saati")]
-        //[Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(ValidationResource))]
         public DateTime? CheckInTime { get; set; }
 
         public virtual Student? Student { get; set; }

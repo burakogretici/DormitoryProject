@@ -70,15 +70,12 @@
 
             var startPart = startDate.toLocaleDateString(undefined, options);
             var endPart = endDate.toLocaleDateString(undefined, options);
-            debugger;
             return startPart + ' - ' + endPart;
         }
 
         }
         function showPermitDetails(field, data, td) {
             var value = kvs.value(data, field);
-
-            debugger;
             var input = $("<input>", { type: "button", class: "btn btn-success", "data-record-id": data.student.id, value: "Detaya Git" });
 
             input.on('click', function () {
@@ -97,7 +94,6 @@
 
                 data.permitDetails.forEach(function (permitDetail) {
                     var formattedInterval = formatTimeInterval(permitDetail.checkInTime, permitDetail.checkOutTime);
-                    debugger;
                     var parts = formattedInterval.split(' - ');
 
                     if (parts.length === 2) {

@@ -1,14 +1,12 @@
 ﻿using KvsProject.Domain.Enums;
 using KvsProject.Domain.Validations;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace KvsProject.Domain
 {
     public class Central : Permission
     {
-        //[Display(Name = "Talebe Adı")]
-        //[Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(ValidationResource))]
-        //public int StudentId { get; set; }
 
         [Display(Name = "Kimden İzin Aldı")]
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(ValidationResource))]
@@ -27,10 +25,10 @@ namespace KvsProject.Domain
         [Display(Name = "Mazeretli mi?")]
         public bool? IsExcused { get; set; }
 
+        [NotMapped]
+        [Display(Name = "Çıkış Saati")]
+        public string? NewTime { get; set; }
 
-
-
-        //public virtual Student? Student { get; set; }
-
+        
     }
 }

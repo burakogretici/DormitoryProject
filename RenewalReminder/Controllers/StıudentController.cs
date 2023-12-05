@@ -3,6 +3,8 @@ using NuGet.Protocol;
 using KvsProject.Domain;
 using KvsProject.Services.Abstract;
 using RenewalRemindr.Models;
+using KvsProject.Services.Concrete;
+using KvsProject.Models;
 
 namespace KvsProject.Controllers
 {
@@ -23,7 +25,9 @@ namespace KvsProject.Controllers
         {
             this.StoreRequest(request);
             var query = request.ToPagedQuery<Student>();
-            return (await _studentService.Query(query)).ToGridResult(request);
+
+            var result = await _studentService.Query(query);
+            return (result.ToGridResult(request));
         }
         public async Task<IActionResult> Student_Edit(int id)
         {

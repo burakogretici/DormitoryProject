@@ -24,7 +24,7 @@
 
     <div id="wrapper">
         <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color:#000">
-            
+
             <li class="m-0">
                 <hr class="sidebar-divider my-0 mx-1" />
             </li>
@@ -34,24 +34,25 @@
                     <span>Ana Sayfa</span>
                 </a>
             </li>
-
-
+            
             <li class="m-0">
                 <hr class="sidebar-divider d-none d-md-block" />
             </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/Central/Index">
-                    <i class="fas fa-fw fa-clock"></i>
-                    <span>İzinler</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/Guest/Index">
+            @if (user.UserType == KvsProject.Domain.Enums.UserType.ADMIN || user.UserType == KvsProject.Domain.Enums.UserType.CENTER)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="/Central/Index">
+                        <i class="fas fa-fw fa-clock"></i>
+                        <span>İzinler</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Guest/Index">
                     <i class="fas fa-fw fa-users"></i>
                     <span>Misafirler</span>
                 </a>
             </li>
+            }
             @if (user.UserType == KvsProject.Domain.Enums.UserType.ADMIN)
             {
                 <li class="nav-item">
@@ -73,13 +74,13 @@
                     </a>
                     <div class="collapse" id="reportSubMenu">
                         <ul class="nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Report/Index">
+                            <li class="nav-item" style="width: 100%;height: 100%;">
+                                <a class="nav-link" style="background: black; width: 100%;" href="/Report/Index">
                                     <span>Toplam İzin Süreleri</span>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/Report/Index2">
+                            <li class="nav-item" style="width: 100%;height: 100%; margin: 1px;">
+                                <a class="nav-link" style="background: black; width: 100%; " href="/Report/Index2">
                                     <span>Mazeretli İzinliler</span>
                                 </a>
                             </li>
@@ -87,6 +88,7 @@
                     </div>
                 </li>
             }
+
 
             <li class="m-0 text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -116,18 +118,6 @@
                                 <div class="dropdown-item d-flex align-items-center">
                                     Bilgilendirme bulunmamaktadır
                                 </div>
-                                @*<a class="dropdown-item d-flex align-items-center" href="#">
-                                <div class="mr-3">
-                                <div class="icon-circle bg-primary">
-                                <i class="fas fa-file-alt text-white"></i>
-                                </div>
-                                </div>
-                                <div>
-                                <div class="small text-gray-500">December 12, 2019</div>
-                                <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                </div>
-                                </a>*@
-                                @*<a class="dropdown-item text-center small text-gray-500" href="#">Tüm Bilgilendirmeler</a>*@
                             </div>
                         </li>
 
@@ -140,19 +130,7 @@
                                 <img class="img-profile rounded-circle" src="/images/undraw_profile.svg">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
-                                @*<a class="dropdown-item" href="#">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Profile
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Settings
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                Activity Log
-                                </a>
-                                <div class="dropdown-divider"></div>*@
+
                                 <a class="dropdown-item" href="/Home/Logout">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Çıkış

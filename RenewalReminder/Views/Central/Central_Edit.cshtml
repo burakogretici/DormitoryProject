@@ -2,7 +2,7 @@
 @using KvsProject.Domain.Enums;
 @model Central
 @{
-    ViewBag.Title = "İzin Girişi";
+    ViewBag.Title = "İzin Düzenleme";
     var user = ViewContext.HttpContext.Items["User"] as KvsProject.Domain.User;
 
 
@@ -73,15 +73,14 @@ else
     </div>
     @section scripts{
     <js-validation form-selector="#frmEdit">
-
+        <rule name="FullName" rules="requiredNonZero: true" />
+        <rule name="Staff" rules="required: true" />
+        <rule name="ToWhere" rules="required: true" />
     </js-validation>
-
     <script>
         function saveRecord() {
             var form = $("#frmEdit");
             var id = $("#Id").val();
-            debugger;
-
             if (form.valid()) {
                 kvs.postJx(form.attr("action"), "body", form, function (result) {
                     kvs.alert("success", "Başarılı", "İşlem başarılı", function () {
@@ -108,4 +107,5 @@ else
     </script>
 
     }
+  
 }

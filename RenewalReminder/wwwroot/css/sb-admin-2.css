@@ -11006,8 +11006,8 @@ a:focus {
 }
 
     .topbar #sidebarToggleTop {
-        height: 2.5rem;
-        width: 2.5rem;
+        height: 2rem;
+        width: 2rem;
     }
 
         .topbar #sidebarToggleTop:hover {
@@ -12229,4 +12229,39 @@ body.sidebar-toggled footer.sticky-footer {
 .login {
     margin-left: 11cm;
     margin-top: 5cm;
+}
+/* Mobil cihazlar için stil */
+/*@media (max-width: 768px) {
+    .nav-item {
+        width: 100%;*/ /* Menü öðesi geniþliðini ayarla */
+        /*margin-bottom: 10px;*/ /* Boþluk ekleyerek öðeleri birbirinden ayýr */
+    /*}
+
+    .collapse.show {
+        display: block !important;*/ /* Aktif olan menüyü görünür yap */
+    /*}
+
+    .nav {
+        flex-direction: column;*/ /* Menü öðelerini dikey düzende sýrala */
+    /*}
+
+    .nav-link {
+        padding: 10px;*/ /* Menü öðesi içindeki içeriði yatay ve dikey yönde boþluk býrak */
+    /*}
+}*/
+/* Mobil cihazlar için stil */
+@media (max-width: 768px) {
+    .nav-item customLink {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .nav-link customLink{
+        color: greenyellow;
+        border: 1px solid aqua;
+        width: 100%;
+        display: block;
+        padding: 10px;
+        background-color: black;
+    }
 }

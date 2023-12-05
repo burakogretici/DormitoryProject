@@ -6,7 +6,7 @@ namespace KvsProject.Domain.Enums
     public enum Staff
     {
         [Display(Name = "Seçiniz")]
-        NONE = 0,
+        NONE,
         [Display(Name = "Hasan Özer")]
         Staff1,
         [Display(Name = "Süleyman Yüksel")]

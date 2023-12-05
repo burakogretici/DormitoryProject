@@ -8,6 +8,9 @@ namespace KvsProject.Services.Abstract
         Task<Result<Central>> SaveCentral(Central entity);
         Task<Result<Guest>> SaveGuest(Guest entity);
         Task<Result<MarketPermit>> SaveMarketPermit(MarketPermit entity);
+        Task<Result> DeleteCentral(int id);
+        Task<Result> DeleteGuest(int id);
+
 
     }
 }

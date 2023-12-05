@@ -6,111 +6,64 @@
 }
 @if (Model.Count() > 0 && Model != null)
 {
-    @*     <table class="table">
-        <tr>
-            <th>
-                <p style="color: #4e73dfc7;"> <span class="badge badge-primary" style="font-size: x-large; margin-right: 8px; background-color: #4e73dfc7; border-radius: 100%;">@DateTime.Now.Day </span> @DateTime.Now.ToString("MMMM").ToUpper() @DateTime.Now.ToString("yyyy").ToUpper() @DateTime.Now.ToString("dddd").ToUpper() </p>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <p style="color: black;font-size: 12px;"> <span style="font-size:large; font-weight: bolder;">Talebe Adı </span></p>
-            </th>
-            <th>
-                <p style="color: black;font-size: 12px;"> <span style="font-size:large;font-weight: bolder;">Nereye Gidiyor </span></p>
-            </th>
-            <th>
-                <p style="color: black;font-size: 12px;"> <span style="font-size:large; font-weight: bolder;">Kimden İzin Aldı </span></p>
-            </th>
-        </tr>
-        <tbody id="a">
-            @foreach (var item in Model)
-            {
-                var checkOutTime = item.CheckOutTime;
-                var statusColor = "white"; // Default renk
-                var statusText = item.Student.FullName;
-
-                if (checkOutTime.HasValue)
-                {
-                    var checkOutDateTime = checkOutTime.Value;
-                    var twoHoursAgo = checkOutDateTime.AddHours(2);
-
-                    // Eğer CheckOutTime'dan 2 saat geçmişse
-                    if (twoHoursAgo < date)
-                    {
-                        statusColor = "#ff8080"; // Renk: Kırmızı
-                    }
-                }
-                <tr style="background-color: @statusColor">
-                    <th>
-                        <p style="font-size: 10px;"> <span style="font-size:medium;margin-right: 10px;font-weight: bolder;"> @statusText</span> </p>
-                    </th>
-                    <th>
-                        <p style="font-size: 10px;"> <span style="font-size:medium;margin-right: 10px;font-weight: bolder;"> @item.ToWhere</span> </p>
-                    </th>
-                    <th>
-                        <p style="font-size: 10px;"> <span style="font-size:medium;margin-right: 10px;font-weight: bolder;"> @item.Staff</span> </p>
-                    </th>
-                </tr>
-            }
-        </tbody>
-    </table>
- *@
     <div style="margin-bottom: 20px;">
         <p style="font-size: 15px; margin: 0;">
             <span class="badge badge-primary" style="font-size: 1.5em; margin-right: 8px; background-color: #4e73dfc7; border-radius: 100%;">@DateTime.Now.Day </span>
             @DateTime.Now.ToString("MMMM").ToUpper() @DateTime.Now.ToString("yyyy").ToUpper() @DateTime.Now.ToString("dddd").ToUpper()
         </p>
     </div>
-    <table class="table" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr style="background-color: #999ca6c7; color: white; text-align: center;">
-                <th style="padding: 10px; width: 5%;">Talebe No</th>
-                <th style="padding: 10px; width: 10%;">Talebe Adı</th>
-                <th style="padding: 10px; width: 10%;">Nereye Gidiyor</th>
-                <th style="padding: 10px; width: 10%;">Kimden İzin Aldı</th>
-                <th style="padding: 10px; width: 10%;">Çıkış Tarihi</th>
-                <th style="padding: 10px; width: 10%;">Geçen Süre</th>
-
-            </tr>
-        </thead>
-        <tbody id="a">
-            @foreach (var item in Model)
-            {
-                var checkOutTime = item.CheckOutTime;
-                var statusColor = "#a0ce9d"; // Default renk
-                var elapsedTime = "";
-
-                if (checkOutTime.HasValue)
-                {
-                    var checkOutDateTime = checkOutTime.Value;
-                    var twoHoursAgo = checkOutDateTime.AddHours(2);
-
-                    if (twoHoursAgo < date)
-                    {
-                        statusColor = "#e89292";
-                    }
-                    // Geçen süreyi hesapla
-                    var timeElapsed = DateTime.Now - checkOutDateTime;
-                    elapsedTime = $"{(int)timeElapsed.TotalHours} saat {(int)timeElapsed.Minutes} dakika";
-                }
-                <tr style="background-color: @statusColor; text-align: center;">
-                    <td style="padding: 10px; font-weight: bold; font-size: 14px;">@item.Student.Number</td>
-                    <td style="padding: 10px; font-weight: bold; font-size: 14px;">@item.Student.FullName</td>
-                    <td style="padding: 10px; font-weight: bold; font-size: 14px;">@item.ToWhere.GetDisplayName()</td>
-                    <td style="padding: 10px; font-weight: bold; font-size: 14px;">@item.Staff.GetDisplayName()</td>
-                    <td style="padding: 10px; font-weight: bold; font-size: 14px;">@item.CheckOutTime</td>
-                    <td style="padding: 10px; font-weight: bold; font-size: 14px;">@elapsedTime</td>
+    <div class="table-responsive">
+        <table class="table" style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background-color: #999ca6c7; color: white; text-align: center;">
+                    <th style="padding: 10px; width: 5%;">Talebe No</th>
+                    <th style="padding: 10px; width: 10%;">Talebe Adı</th>
+                    <th style="padding: 10px; width: 10%;">Nereye Gidiyor</th>
+                    <th style="padding: 10px; width: 10%;">Kimden İzin Aldı</th>
+                    <th style="padding: 10px; width: 10%;">Çıkış Tarihi</th>
+                    <th style="padding: 10px; width: 10%;">Geçen Süre</th>
 
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody id="a">
+                @foreach (var item in Model)
+                {
+                    var checkOutTime = item.CheckOutTime;
+                    var statusColor = "#a0ce9d"; // Default renk
+                    var elapsedTime = "";
+
+                    if (checkOutTime.HasValue)
+                    {
+                        var checkOutDateTime = checkOutTime.Value;
+                        var twoHoursAgo = checkOutDateTime.AddHours(2);
+
+                        if (twoHoursAgo < date)
+                        {
+                            statusColor = "#e89292";
+                        }
+
+                        var timeElapsed = DateTime.Now - checkOutDateTime;
+                        elapsedTime = $"{(int)timeElapsed.TotalHours} saat {(int)timeElapsed.Minutes} dakika";
+                    }
+                    <tr style="background-color: @statusColor; text-align: center;">
+                        <td style="padding: 10px; font-weight: bold; font-size: 14px;">@item.Student.Number</td>
+                        <td style="padding: 10px; font-weight: bold; font-size: 14px;">@item.Student.FullName</td>
+                        <td style="padding: 10px; font-weight: bold; font-size: 14px;">@item.ToWhere.GetDisplayName()</td>
+                        <td style="padding: 10px; font-weight: bold; font-size: 14px;">@item.Staff.GetDisplayName()</td>
+                        <td style="padding: 10px; font-weight: bold; font-size: 14px;">@item.CheckOutTime</td>
+                        <td style="padding: 10px; font-weight: bold; font-size: 14px;">@elapsedTime</td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
 
 
 }
 else
 {
-    <span> İzinden Dönmeyen Bulunamadı... </span>
+    <span> Elhamdülillah Tüm Talebe Yurtta... </span>
 }
 

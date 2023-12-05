@@ -99,10 +99,7 @@ namespace KvsProject.CS.Web.Components
                         {
                             list.Add("url: true");
                         }
-                        //else if (attribute is CreditCardAttribute)
-                        //{
-                        //    list.Add("creditcard: true");
-                        //}
+                     
                         else if (attribute is CompareAttribute)
                         {
                             list.Add("equalTo: \"#" + ((CompareAttribute)attribute).OtherProperty + "\"");

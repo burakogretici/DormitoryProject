@@ -12,5 +12,9 @@ namespace KvsProject.Domain.Enums
 
         [Display(Name = "Santralci")]
         CENTER = 2,
+
+        [Display(Name = "Başkan")]
+        MİNİSTER = 3,
+        
     }
 }

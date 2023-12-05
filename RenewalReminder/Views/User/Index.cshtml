@@ -35,7 +35,6 @@
         }
 
         function deleteRecord(data) {
-            debugger;
             var grid = this;
             kvs.confirm("Kayıt silme onay", "Kayıdı silmek istediğinize emin misiniz?", function () {
                 kvs.callJx("/User/User_Delete", "body", { id: data.id }, function () {
@@ -51,6 +50,9 @@
                     break;
                 case 2:
                     return $("<span>", { html: "Santralci" });
+                    break;
+                case 3:
+                    return $("<span>", { html: "Yurt Başkanı" });
                     break;
                 default:
             }

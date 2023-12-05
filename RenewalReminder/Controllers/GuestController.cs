@@ -2,6 +2,7 @@
 using KvsProject.Domain;
 using KvsProject.Services.Abstract;
 using RenewalRemindr.Models;
+using KvsProject.Services.Concrete;
 
 namespace KvsProject.Controllers
 {
@@ -81,6 +82,12 @@ namespace KvsProject.Controllers
             }
             return this.SuccesJson(new { result.Data.Id });
         }
+
+        public async Task<IActionResult> Guest_Delete(int id)
+        {
+            return (await _centralService.DeleteGuest(id)).ToJson();
+        }
+
 
     }
 }

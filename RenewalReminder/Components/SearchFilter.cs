@@ -51,8 +51,6 @@ namespace KvsProject.Components
             }
             filterContext.Id = id;
 
-            //var lgColumn = 0;
-            //var mdColumn = 0;
             for (int i = 0; i < filterContext.Fields.Count; i++)
             {
                 var div = filterContext.Fields[i].Item1 as TagBuilder;

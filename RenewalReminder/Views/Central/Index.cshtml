@@ -15,9 +15,9 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="required" asp-for="Student.FullName"></label>
+                        <label class="required" asp-for="Student.Number"></label>
                         <div>
-                            @Html.DropDownList("StudentId", ViewBag.Students, "Seçiniz...", new { @class = "form-control sm" })
+                            @Html.DropDownList("StudentId", ViewBag.Students, "Seçiniz...", new { @class = "form-control" })
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,19 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required" asp-for="NewTime"></label>
+                        <div>
+                            <input type="text" class="form-control" asp-for="NewTime" placeholder="hh:mm" />
+                            <small style="color: #f4af03; margin: 4px;">Lütfen saat ve dakikayı "HH:mm" formatında girin.</small>
+
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </form>
 
         <div class="row">
@@ -76,31 +88,28 @@
 
             <field for="CreateDate" place-holder="Tarihe Göre Ara..." type="DATE" operant="GREATER_THANEQUAL"> </field>
 
-           @*  <field type="BUTTON" onclick="editRecord()" class="btn btn-sm btn-warning text-nowrap ml-3">
-                <i class="fas fa-plus-circle mr-1"></i> Yeni Kayıt
-            </field> *@
-            @*     @if (todayIsSunday)
-            { *@
+
             <field type="BUTTON" onclick="pageChange()" class="btn btn-sm btn-success text-nowrap ml-3">
                 <i class="fas fa-plus-circle mr-1"></i> Çarşı İzni
             </field>
-            @* } *@
+
 
         </filters>
     </grid>
 </div>
-<js-validation form-selector="#frmEdit">
-    <rule name="FullName" rules="requiredNonZero: true" />
-    <rule name="Staff" rules="requiredNonZero: true" />
-    <rule name="ToWhere" rules="requiredNonZero: true" />
-</js-validation>
+
 @section scripts{
+    <js-validation form-selector="#frmEdit">
+        <rule name="Student.Number" rules="requiredNonZero: true" />
+        <rule name="Staff" rules="required: true" />
+        <rule name="ToWhere" rules="required: true" />
+
+    </js-validation>
     <script>
         function saveRecord() {
             var form = $("#frmEdit");
             var id = $("#Id").val();
             var grid = kvs.grid(".grid");
-            
             if (form.valid()) {
                 kvs.postJx(form.attr("action"), "body", form, function (result) {
                     grid.load();

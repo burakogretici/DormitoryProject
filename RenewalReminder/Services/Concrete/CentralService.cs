@@ -2,6 +2,7 @@
 using KvsProject.Domain;
 using KvsProject.Services.Abstract;
 using KvsProjectr.Domain.Exceptions;
+using System.Globalization;
 
 namespace KvsProject.Services.Concrete
 {
@@ -66,7 +67,28 @@ namespace KvsProject.Services.Concrete
                 }
                 else
                 {
-                    entity.CheckOutTime = DateTime.Now;
+                    if (entity.NewTime != null)
+                    {
+                        if (DateTime.TryParseExact(entity.NewTime, "HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedTime))
+                        {
+                            entity.CheckOutTime = new DateTime(
+                                DateTime.Now.Year,
+                                DateTime.Now.Month,
+                                DateTime.Now.Day,
+                                parsedTime.Hour,
+                                parsedTime.Minute,
+                                0
+                            );
+                        }
+                        else
+                        {
+                            entity.CheckOutTime = DateTime.Now;
+                        }
+                    }
+                    else
+                    {
+                        entity.CheckOutTime = DateTime.Now;
+                    }
                     await _repositoryCentral.Add(entity);
                 }
 
@@ -124,8 +146,6 @@ namespace KvsProject.Services.Concrete
                 throw;
             }
         }
-
-
         public async Task<Result<MarketPermit>> SaveMarketPermit(MarketPermit entity)
         {
             var isTransactional = _unitOfWork.IsTransactional();
@@ -141,7 +161,7 @@ namespace KvsProject.Services.Concrete
                         return new Result<MarketPermit>(validationResult);
                     }
                     oldEntity = await _reporsitoryMarketPermit.Get(a => a.StudentId == entity.StudentId && a.CreateDate.Date == DateTime.Now.Date);
-                   
+
                     if (oldEntity != null)
                     {
                         throw new BusException("Bu kişi daha önce eklendi, tekrar ekleyemezsiniz!");
@@ -190,6 +210,79 @@ namespace KvsProject.Services.Concrete
             }
         }
 
+        public async Task<Result> DeleteCentral(int id)
+        {
+            var isTransactional = _unitOfWork.IsTransactional();
+            try
+            {
+
+                if (!isTransactional)
+                {
+                    await _unitOfWork.BeginTransaction();
+                }
+
+                var entity = await _repositoryCentral.Get(id);
+                if (entity == null)
+                {
+                    throw new BusException("Silinecek kayıt bulunamadı.");
+                }
+
+                await _repositoryCentral.Delete(entity);
+
+                if (!isTransactional)
+                {
+                    await _unitOfWork.CommitTransaction();
+                }
+
+                return new Result();
+            }
+            catch (Exception ex)
+            {
+                if (!isTransactional)
+                {
+                    await _unitOfWork.RollbackTransaction();
+                    return new Result(ex.Message);
+                }
+                throw;
+            }
+        }
+
+        public async Task<Result> DeleteGuest(int id)
+        {
+            var isTransactional = _unitOfWork.IsTransactional();
+            try
+            {
+
+                if (!isTransactional)
+                {
+                    await _unitOfWork.BeginTransaction();
+                }
+
+                var entity = await _repositoryGuest.Get(id);
+                if (entity == null)
+                {
+                    throw new BusException("Silinecek kayıt bulunamadı.");
+                }
+
+                await _repositoryGuest.Delete(entity);
+
+                if (!isTransactional)
+                {
+                    await _unitOfWork.CommitTransaction();
+                }
+
+                return new Result();
+            }
+            catch (Exception ex)
+            {
+                if (!isTransactional)
+                {
+                    await _unitOfWork.RollbackTransaction();
+                    return new Result(ex.Message);
+                }
+                throw;
+            }
+        }
 
     }
 }

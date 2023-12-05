@@ -42,7 +42,7 @@
         <column for="Id" template="edit" orderable="false" title="@(Html.Raw("<i class=\"fas fa-check\"></i>"))" style="width:2rem"></column>
         <column for="Student.Number" title="Talebe No"></column>
         <column for="Student.FullName" title="Talebe Adı"></column>
-        <column for="Student.Phone" title="Telefon Numarası"></column>
+        <column for="Student.Phone" orderable="false" title="Telefon Numarası"></column>
 
         <column for="CheckOutTime" template="formatDate"></column>
         <column for="CheckInTime" template="formatDate"></column>
@@ -52,19 +52,17 @@
             <field for="CreateDate" place-holder="Tarihe Göre Ara..." type="DATE" operant="GREATER_THANEQUAL"> </field>
 
             <field type="SELECT" for="Student" items="ViewBag.Students"> </field>
-       @*      <field type="BUTTON" onclick="editRecord()" class="btn btn-sm btn-warning text-nowrap ml-3">
-                <i class="fas fa-plus-circle mr-1"></i> Yeni Kayıt
-            </field> *@
+   
         </filters>
     </grid>
 
 </div>
 
-<js-validation form-selector="#frmEdit">
-    <rule name="FullName" rules="requiredNonZero: true" />
-</js-validation>
-
 @section scripts{
+    <js-validation form-selector="#frmEdit">
+        <rule name="Student.FullName" rules="requiredNonZero: true" />
+    </js-validation>
+
     <script>
         function saveRecord() {
             var form = $("#frmEdit");
