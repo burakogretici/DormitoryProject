@@ -16,7 +16,7 @@ namespace KvsProject.Domain
         [MaxLength(400, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(ValidationResource))]
         public string Surname { get; set; }
 
-        [Display(Name = "Talebe Adı")]
+        [Display(Name = "Öğrenci Adı")]
         [MaxLength(400, ErrorMessageResourceName = "MaxLength", ErrorMessageResourceType = typeof(ValidationResource))]
         public string? FullName { get; set; }
 
