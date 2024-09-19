@@ -8,7 +8,7 @@ namespace KvsProject.Domain.Enums
         NONE = 0,
         [Display(Name = "Misafir")]
         Hoca,
-        [Display(Name = "Talebe")]
+        [Display(Name = "Öğrenci")]
         Student,
         [Display(Name = "Diğer")]
         Other
