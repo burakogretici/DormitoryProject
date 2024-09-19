@@ -11,7 +11,7 @@ namespace KvsProject.Domain.Enums
     {
         [Display(Name = "Seçiniz")]
         NONE = 0,
-        [Display(Name = "Santralci")]
+        [Display(Name = "Nöbetçi")]
         Guard,
         [Display(Name = "Çaycı")]
         Teaci
