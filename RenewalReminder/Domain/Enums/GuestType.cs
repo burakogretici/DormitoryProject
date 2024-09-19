@@ -6,7 +6,7 @@ namespace KvsProject.Domain.Enums
     {
         [Display(Name = "Seçiniz")]
         NONE = 0,
-        [Display(Name = "Hocaefendi")]
+        [Display(Name = "Misafir")]
         Hoca,
         [Display(Name = "Talebe")]
         Student,
