@@ -5,7 +5,7 @@ namespace KvsProject.Domain
 {
     public class Permission : Entity
     {
-        [Display(Name = "Talebe Adı")]
+        [Display(Name = "Öğrenci Adı")]
         [Required(ErrorMessageResourceName = "Required", ErrorMessageResourceType = typeof(ValidationResource))]
         public int StudentId { get; set; }
 
